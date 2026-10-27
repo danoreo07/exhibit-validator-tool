@@ -10,6 +10,10 @@ from .layers.match_layer import find_clusters
 from .layers.llm_layer import llm_judge
 from .layers.decision_engine import decide
 
+# Import Tripwire Layer 2.5
+from .layers.tripwire import needs_llm_judge
+# Import Schema Normalizer
+from .models.schema import normalize_output
 
 def run_pipeline(
     input_path: str,
@@ -37,18 +41,15 @@ def run_pipeline(
                 data = json.load(f)
                 records = data.get("points", data) if isinstance(data, dict) else data
                 
-                # Safety check: ensure records is a list
                 if not isinstance(records, list):
                     print(f"Warning: {file_path} does not contain a list of records. Skipping.")
                     continue
                     
                 for rec in records:
-                    # Safety check: ensure rec is a dictionary
                     if not isinstance(rec, dict):
                         continue
                         
                     rec_id = rec.get("id")
-                    # Deduplicate based on ID to avoid processing the same record twice
                     if rec_id and rec_id not in seen_ids:
                         seen_ids.add(rec_id)
                         all_records.append(rec)
@@ -60,6 +61,12 @@ def run_pipeline(
 
     results = {}
     passed = []
+    
+    # [MỚI] Tập hợp các record cần gọi LLM
+    llm_queue = []
+    
+    # Dict để tra cứu record nhanh theo ID
+    id_to_rec = {r["id"]: r for r in records}
 
     # 2. Layer 1: Rule check (Deterministic)
     for rec in records:
@@ -82,59 +89,32 @@ def run_pipeline(
                 "name": next(r["name"] for r in passed if r["id"] == rid),
             })
 
-    force_llm, tripwire_reason = needs_llm_judge(record)
-    if force_llm:
-        # Ép buộc gọi LLM Judge dù Layer 2 báo ok
-        l3_result = llm_judge(record, extra_context=tripwire_reason) 
-        results.append(l3_result)
-        continue
-
-    if l2_verdict == "suspicious":
-        l3_result = llm_judge(record)
-        results.append(l3_result) 
-        
-    # 4. Layer 3: LLM judge for ambiguous cases
-    if use_llm:
-        # Identify records flagged as suspicious by the Rule layer
-        ambiguous_ids = [
-            rid for rid, res in results.items() 
-            if res.get("verdict") == "suspicious"
-        ]
-        
-        print(f"Sending {len(ambiguous_ids)} records to LLM Judge...")
-        
-        # Helper function to process a single record with LLM
-        def process_record(rid):
-            rec = next((r for r in records if r["id"] == rid), None)
-            if not rec:
-                return rid, None
-            
-            # Add a 0.5s delay between requests to prevent Rate Limiting (429 errors)
-            time.sleep(0.5) 
-            llm_result = llm_judge(rec, intent)
-            return rid, llm_result
-
-        # Execute LLM calls in parallel (max 5 workers at a time)
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(process_record, rid): rid for rid in ambiguous_ids}
-            
-            completed = 0
-            for future in as_completed(futures):
-                rid, llm_result = future.result()
-                if llm_result:
-                    rule_result = results.get(rid)
-                    final = decide(rule_result, llm_result)
-                    results[rid] = {**final, "name": next(r.get("name", "") for r in records if r["id"] == rid)}
-                
-                completed += 1
-                # Print progress every 10 records to avoid spamming the console
-                if completed % 10 == 0:
-                    print(f"Progress: {completed}/{len(ambiguous_ids)} processed...")
-
-    # 5. Handle records that passed all layers without any issues
+    # 4. Layer 2.5 & Layer 3: Tripwire and LLM Judge
     for rec in passed:
-        if rec["id"] not in results:
-            results[rec["id"]] = {
+        rid = rec["id"]
+        if rid in results:
+            continue # Đã được xử lý ở Layer 2 (matching)
+            
+        # Check Tripwire (Layer 2.5)
+        force_llm, tripwire_reason = needs_llm_judge(rec)
+        
+        if force_llm:
+            if use_llm:
+                # Đưa vào hàng đợi LLM với lý do cụ thể
+                llm_queue.append({"rid": rid, "rec": rec, "reason": tripwire_reason})
+            else:
+                # Nếu tắt LLM, đánh dấu là suspicious để user tự review
+                results[rid] = {
+                    "verdict": "suspicious",
+                    "reason": tripwire_reason,
+                    "suspicious_fields": ["name", "address", "keytag"],
+                    "suggested_action": "review",
+                    "source_layer": "tripwire",
+                    "name": rec.get("name", ""),
+                }
+        else:
+            # Nếu không bị tripwire, đánh dấu là ok (passed all checks)
+            results[rid] = {
                 "verdict": "ok",
                 "reason": "All checks passed.",
                 "suspicious_fields": [],
@@ -142,6 +122,33 @@ def run_pipeline(
                 "source_layer": "matching",
                 "name": rec.get("name", ""),
             }
+
+    # 5. Layer 3: LLM judge for ambiguous cases
+    if use_llm and llm_queue:
+        print(f"Sending {len(llm_queue)} tripwire records to LLM Judge...")
+        
+        def process_record(item):
+            rec = item["rec"]
+            time.sleep(0.5) # Prevent rate limiting
+            # Call LLM with extra context
+            llm_result = llm_judge(rec, intent, extra_context=item["reason"])
+            return item["rid"], llm_result
+
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            futures = {executor.submit(process_record, item): item["rid"] for item in llm_queue}
+            
+            completed = 0
+            for future in as_completed(futures):
+                rid, llm_result = future.result()
+                if llm_result:
+                    rule_result = results.get(rid, {})
+                    # Sử dụng decision_engine để kết hợp rule & LLM result
+                    final = decide(rule_result, llm_result)
+                    results[rid] = {**final, "name": id_to_rec[rid].get("name", "")}
+                
+                completed += 1
+                if completed % 10 == 0:
+                    print(f"Progress: {completed}/{len(llm_queue)} processed...")
 
     # 6. Generate summary statistics
     summary = {
@@ -151,8 +158,15 @@ def run_pipeline(
         "ok": sum(1 for v in results.values() if v["verdict"] == "ok"),
     }
 
+    # 7. [MỚI] Normalize Output trước khi trả về
+    for rid, res in results.items():
+        if "id" not in res:
+            res["id"] = rid
+            
+    normalized_records = normalize_output(list(results.values()))
+
     return {
         "summary": summary,
         "pair_flags": pair_flags,
-        "records": list(results.values()),
+        "records": normalized_records,
     }

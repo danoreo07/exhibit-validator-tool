@@ -4,11 +4,13 @@ import time
 from openai import OpenAI
 
 
-def build_prompt(record: dict, intent: dict) -> str:
+def build_prompt(record: dict, intent: dict, extra_context: str = "") -> str:
     """Construct the prompt to send to the LLM."""
     checks = "\n".join(
         f"- {c['field']}: {c['rule']}" for c in intent.get("semantic_checks", [])
     )
+    
+    warning = f"\n⚠️ WARNING/TRIPWIRE: {extra_context}\n" if extra_context else ""
     
     return f"""You are a data quality judge for a POI collection task.
 
@@ -18,18 +20,20 @@ Record: {json.dumps(record, ensure_ascii=False)}
 
 Additional checks:
 {checks}
+{warning}
 
 Evaluate:
-1. Does the record match the objective?
-2. Are there internal inconsistencies (e.g., name suggests a museum but address is a mall)?
-3. Which specific fields are suspicious?
+1. Does the record match the objective? 
+2. If the record is a hall or pavilion INSIDE a museum (e.g., contains '馆' and address has '博物馆'), consider it 'ok' even if typecode is 110000.
+3. If the record is clearly a hotel, shop, photo studio, or company (e.g., contains '酒店', '摄影', '别墅', '专卖店'), mark it as 'wrong'.
+4. Are there internal inconsistencies? Which specific fields are suspicious?
 
 Return JSON only:
 {{"verdict": "ok|suspicious|wrong", "reason": "...", "suspicious_fields": [...]}}
 """
 
 
-def llm_judge(record: dict, intent: dict) -> dict:
+def llm_judge(record: dict, intent: dict, extra_context: str = "") -> dict:
     """Send the record to the LLM and return its verdict."""
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
@@ -44,7 +48,7 @@ def llm_judge(record: dict, intent: dict) -> dict:
         resp = client.chat.completions.create(
             # Use the free model router
             model="openrouter/free", 
-            messages=[{"role": "user", "content": build_prompt(record, intent)}],
+            messages=[{"role": "user", "content": build_prompt(record, intent, extra_context)}],
             response_format={"type": "json_object"},
             temperature=0,
         )

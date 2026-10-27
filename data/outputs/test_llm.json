@@ -1,0 +1,1966 @@
+{
+  "summary": {
+    "total": 179,
+    "wrong": 163,
+    "suspicious": 6,
+    "ok": 10
+  },
+  "pair_flags": [],
+  "records": [
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "一带廊"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "三潭印月花港观鱼码头"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110105 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "下沉广场"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 141400 is explicitly excluded by subtype rules.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "世泽商学院"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "丝路馆"
+    },
+    {
+      "verdict": "ok",
+      "reason": "The name includes \"博物馆\" (museum) and the address is a road location not a mall or school. The type and keytag indicate a cultural place, consistent with a museum. No internal inconsistencies detected.",
+      "suspicious_fields": [],
+      "final_action": "accept",
+      "source_layer": "llm_judge",
+      "name": "中国丝绸博物馆-行政楼"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "中国丝绸博物馆儿童馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "乐水亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "九里桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "乾隆帝御笔书写净慈寺方丈咏古碑"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "亦僊也"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "八壶精舍"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "净慈寺-双井"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "净慈寺东坡亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "净慈禅寺-济公殿"
+    },
+    {
+      "verdict": "ok",
+      "reason": "The record describes 净慈美术馆 (Jingci Art Museum), located inside the historic Jingci Zen Temple within the West Lake Scenic Area. Name, type (美术馆), typecode (140400), keytag, address, photos, and opening hours all consistently indicate a legitimate art museum/exhibition venue. No evidence of training center, school, or shop. Address is a cultural heritage site, not a mall or school.",
+      "suspicious_fields": [],
+      "final_action": "accept",
+      "source_layer": "llm_judge",
+      "name": "净慈美术馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "华君武"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "南屏山"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "南屏山游步道"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "南屏晚钟钟楼"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 060000 belongs to category 'shopping', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "南无阿弥陀佛(雷峰塔景区)"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "南禅净寺"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 141400 is explicitly excluded by subtype rules.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "古尘斋书院"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "同心石"
+    },
+    {
+      "verdict": "ok",
+      "reason": "The record is for 唐云艺术馆 (Tang Yun Art Museum), which is an art museum/exhibition venue. Its type (展览馆), keytag (展览馆), and typecode (140200) all indicate an exhibition hall/museum. The address (南山路45号) is a street address in Hangzhou's Xihu District, not a shopping mall or school. All fields are consistent with a legitimate museum POI.",
+      "suspicious_fields": [],
+      "final_action": "accept",
+      "source_layer": "llm_judge",
+      "name": "唐云艺术馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "大雄宝殿"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-九曜飞樱"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-天缘台"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-小卖部"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110206 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-小教堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-张苍水墓"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-拾翠亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-揽樱轩"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-放怀亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-清婉亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-珠帘壁"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾公园-迎宾亭(南山路)"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "太子湾大草坪"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "嫘祖像"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "学士桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "客堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 061214 belongs to category 'shopping', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "屏山房"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "房山屏"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "抢水园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The name '拓影文化' does not suggest a museum or exhibition venue, and the type indicates it is a science and education cultural service place, which likely falls under training centers or educational institutions. The address is in a residential/commercial area but does not clearly indicate a museum. The record does not meet the objective of collecting museum information.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "typecode",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "拓影文化"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 060200 belongs to category 'shopping', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "放生池小卖部"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "故明张公侍者杨冠玉及舟子墓"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "敕建净慈禅寺-南屏晚钟碑亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "敕建净慈禅寺-演法堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "敕建净慈禅寺-观音殿"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110204 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州名人纪念馆"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 141203 is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "杭州市长桥小学",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a university campus, which is a school and does not match the museum objective.",
+      "suspicious_fields": [
+        "name",
+        "type"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州师范大学玉皇山校区"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for 杭州师范大学美术学院乐歌堂, a university art school hall, which directly violates the objective to exclude schools. The name and type explicitly indicate an educational institution, not a museum or exhibition venue.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州师范大学美术学院乐歌堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a university school building (杭州师范大学美术学院乐舞楼), which directly violates the objective to collect museum information and exclude schools. The name does not suggest a museum or exhibition venue, the type explicitly includes '学校' (school), and the address is a university campus address. All checks for museum eligibility fail.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "address",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州师范大学美术学院乐舞楼"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 141201 is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "杭州师范大学美术学院小剧场",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is a sculpture studio at Hangzhou Normal University (杭州师范大学美术学院雕塑工作室). Its type is 学校;高等院校 (school; higher education institution) and keytag is 学院, which clearly indicates a school. The objective explicitly excludes schools, and the name does not suggest a museum or exhibition venue (no 博物馆/展览馆/gallery/museum).",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "typecode",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州师范大学美术学院雕塑工作室"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州张苍水先生祠"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110204 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州苏东坡纪念馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a hotel (杭州西湖柳莺里酒店-2号楼), not a museum or exhibition venue. The name and address both explicitly indicate a hotel, failing the required name check and conflicting with the objective of collecting museum information in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "address"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州西湖柳莺里酒店-2号楼"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a hotel (杭州西湖柳莺里酒店-3号楼), not a museum or exhibition venue. The name clearly indicates a hotel, which does not match the objective of collecting museum information.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "typecode",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州西湖柳莺里酒店-3号楼"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The name indicates a hotel conference hall, not a museum or exhibition venue. The type and keytag also refer to meeting rooms, not museums. Therefore the record does not meet the objective of collecting museum information in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "杭州西湖柳莺里酒店-会议厅"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-三潭印月"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-三潭印月御碑亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-三潭塔"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-东朗亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-书舸横笛"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-五观堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-北畅亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-半玉山"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-南泠亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-南舒"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-双投桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 060200|110000 belongs to category 'shopping', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-夕影亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110101 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-太子湾公园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110101 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-学士公园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-寂照亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-我心相印亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-挹清池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-揖湖"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-揜水园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-敕建净慈禅寺"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-敕建净慈禅寺金刚殿"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-映波桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110204 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-林徽因纪念碑"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-浣璧池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-滨湖长廊"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110204 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-章太炎纪念馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-芍药圃"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-花港观鱼濠上乐"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-莲子峰"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-菬颖亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-藏山阁"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-蚕乡桑庐"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-观音堂"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-运木古井"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-逍遥坡"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-遐寄亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-郭宅"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-醉书亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-锁澜桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110101 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-长桥公园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110101 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-长桥溪水生态修复公园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-长桥溪水生态修复公园澹真亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "杭州西湖风景名胜区-青蛙"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "染草园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "永明塔院"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The name \"汪庄幼儿园\" indicates a kindergarten/school, not a museum or exhibition venue, and the type includes \"学校;幼儿园\", which contradicts the objective of collecting museum information.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "汪庄幼儿园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a university clinical teaching base, which is a school, not a museum. It does not match the objective of collecting museum information and should be excluded.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "浙江中医药大学临床教学基地"
+    },
+    {
+      "verdict": "ok",
+      "reason": "The record represents a museum (浙江美术馆) located in a cultural area, with no indication of being a training center, school, or shop. The name clearly indicates a museum, and the address is in a scenic/cultural zone, not a mall or school.",
+      "suspicious_fields": [],
+      "final_action": "accept",
+      "source_layer": "llm_judge",
+      "name": "浙江美术馆"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 141100 is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "浙江西子宾馆-会议厅",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "浴佛池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "清音楼"
+    },
+    {
+      "verdict": "ok",
+      "reason": "The record represents a museum (渊美术馆) located in a non-shopping, non-school area (西湖), with a name clearly indicating it is an art gallery. No internal inconsistencies found.",
+      "suspicious_fields": [],
+      "final_action": "accept",
+      "source_layer": "llm_judge",
+      "name": "渊美术馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "湖山胜概"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "澄观亭"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 140300 is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "玉皇山庄会议厅",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "矜春台"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "石山"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "碧梧小筑"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "章太炎墓"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "织造馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110105 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "罗马广场"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "艺桥"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "花港公园邀山"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record does not match the objective. The name '花港码头摄影服务处' indicates a photography service center, not a museum or exhibition venue. The type includes '摄影冲印店' (photo shop) and '风景名胜相关' (scenic spot related), which are not museums. The keytag '服装租赁' (clothing rental) further suggests it is a service-oriented business rather than a cultural institution. The address is within a scenic area, not a shopping mall or school, but the overall nature of the venue disqualifies it from being a museum.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "花港码头摄影服务处"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "花港观鱼-蒋庄古井"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "花港观鱼-鱼池古迹"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "芳汀过雨"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110101 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "苏堤南入口公园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "菬颖池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "藏品楼(不对外开放)"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西林亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西清"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖-汪荘"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 050100|110000 belongs to category 'food', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖-西湖面馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The name '西湖一里园区服务中心阔石板' refers to a park service center, not a museum, gallery, or exhibition venue; it lacks keywords such as 博物馆/展览馆/museum/gallery/exhibition. The type/keytag (公司企业;公司;公司|风景名胜;风景名胜;风景名胜, keytag: 公司) also indicate a company or scenic spot rather than a museum. The address does not appear to be a mall or school, but the record fails the core museum criteria.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "西湖一里园区服务中心阔石板"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖景区花鸟厅"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖梧桐树下"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200|080000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖游船-学士桥(长桥)码头"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖游船-水南半隐码头"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖游船-花港码头"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 190200|110000 belongs to category 'place_name', which is not in the allowed list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "西湖风景区-小南湖",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖风景区净慈寺-南屏净苑"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "西湖风景区学士公园-市民林"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "见湖"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "迎客轩"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110205 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "释迦殿"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110105 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "锦绣广场"
+    },
+    {
+      "verdict": "suspicious",
+      "reason": "Typecode 120301|110200 belongs to category 'residential', which is not in the allowed list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "name": "长桥别墅",
+      "final_action": "needs_review"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "长桥溪水生态修复公园-澹真岛"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "长桥溪水生态修复公园-濯缨池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The record is for a kindergarten (幼儿园), which is a school, and does not match the objective of collecting museum information. The name, type, and keytag all indicate it is an educational institution, not a museum or exhibition venue.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "阔石板幼儿园"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔放心消费区"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110202 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-亲缘阁"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-佛舍利馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-回家雕塑"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-夕照亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-夕照毓秀"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-妙音台"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-放大光明"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-放生池"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-汇文轩"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-状元台"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-管理楼"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-翠芳亭"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110209 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区-观景台"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "The name “龙希帄湾城-龙希晚谱” and type “湾视范―湾视范―湾视范” indicate a scenic area (keytag: “湾城”), not a museum or exhibition venue. Therefore the record does not match the objective of collecting museum information in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "type",
+        "keytag",
+        "childtype"
+      ],
+      "final_action": "needs_review",
+      "source_layer": "llm_judge",
+      "name": "雷峰塔景区-雷峰夕照"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110202 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔景区雷峰塔"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰塔重建记"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110000 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "雷峰夕照御碑亭院落遗址"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110204 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "马一浮纪念馆"
+    },
+    {
+      "verdict": "wrong",
+      "reason": "Typecode 110200 belongs to category 'scenic', which is excluded by intent.",
+      "suspicious_fields": [
+        "typecode",
+        "type"
+      ],
+      "suggested_action": "exclude",
+      "source_layer": "rule",
+      "name": "魏源先生之墓"
+    },
+    {
+      "verdict": "ok",
+      "reason": "All checks passed.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "matching",
+      "name": "中国丝绸博物馆"
+    },
+    {
+      "verdict": "ok",
+      "reason": "All checks passed.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "matching",
+      "name": "时装馆"
+    },
+    {
+      "verdict": "ok",
+      "reason": "All checks passed.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "matching",
+      "name": "杭州·维罗纳交流馆"
+    },
+    {
+      "verdict": "ok",
+      "reason": "All checks passed.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "matching",
+      "name": "浙江音乐学院(玉皇山校区)-音乐博物馆"
+    },
+    {
+      "verdict": "ok",
+      "reason": "All checks passed.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "matching",
+      "name": "蚕桑馆"
+    }
+  ]
+}
