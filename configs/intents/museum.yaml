@@ -1,0 +1,18 @@
+objective: "Collect museum information in Hangzhou. Exclude training centers, schools, and shops."
+allowed_categories: ["culture"]
+excluded_categories: ["shopping", "food", "scenic"]
+
+subtype_rules:
+  allowed_typecodes: 
+    - "140100"   # 博物馆
+    - "140200"   # 展览馆
+    - "140400"   # 美术馆
+    - "110204"   # 纪念馆
+  excluded_typecodes: 
+    - "141400"   # 培训机构
+
+semantic_checks:
+  - field: "name"
+    rule: "Name must suggest museum, gallery, exhibition, memorial — 博物馆/展览馆/美术馆/纪念馆"
+  - field: "address"
+    rule: "Address must not be a mall, school, or training center"

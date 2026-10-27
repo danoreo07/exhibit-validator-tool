@@ -1,0 +1,5 @@
+objective: "Collect tourist attractions. Exclude shops, restaurants, and training centers."
+allowed_categories: ["scenic"]
+excluded_categories: ["shopping", "food"]
+subtype_rules:
+  allowed_typecodes: ["110000", "110101", "110200", "110202", "110203"]

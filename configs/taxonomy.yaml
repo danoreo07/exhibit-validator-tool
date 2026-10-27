@@ -1,0 +1,15 @@
+categories:
+  "11": { name: "scenic", label: "Scenic spots" }
+  "14": { name: "culture", label: "Culture and education" }
+  "06": { name: "shopping", label: "Shopping" }
+  "05": { name: "food", label: "Food and dining" }
+  "08": { name: "sports", label: "Sports and leisure" }
+  "07": { name: "life_service", label: "Life services" }
+  "10": { name: "accommodation", label: "Accommodation" }
+  "13": { name: "government", label: "Government agencies" }
+  "15": { name: "transport", label: "Transport facilities" }
+  "16": { name: "finance", label: "Finance and insurance" }
+  "17": { name: "company", label: "Companies and enterprises" }
+  "12": { name: "residential", label: "Residential and commercial buildings" }
+  "19": { name: "place_name", label: "Place names and addresses" }
+  "20": { name: "infrastructure", label: "Public infrastructure" }
