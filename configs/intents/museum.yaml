@@ -1,18 +1,22 @@
-objective: "Collect museum information in Hangzhou. Exclude training centers, schools, and shops."
-allowed_categories: ["culture"]
-excluded_categories: ["shopping", "food", "scenic"]
+objective: "Identify and keep legitimate museum, gallery and exhibition venues. Exclude zoos, aquariums, theme parks, shops, schools, hotels and training centers."
 
-subtype_rules:
-  allowed_typecodes: 
-    - "140100"   # 博物馆
-    - "140200"   # 展览馆
-    - "140400"   # 美术馆
-    - "110204"   # 纪念馆
-  excluded_typecodes: 
-    - "141400"   # 培训机构
+# --- read by rule_layer_patched.py / guard_verdict / llm prompt ---
+ok_keywords:    ["博物馆", "博物院", "美术馆", "展览馆", "纪念馆", "画廊", "陈列馆", "陈列室", "展陈馆", "展示馆", "艺术展", "大展", "特展", "非遗馆", "展览", "艺廊", "博展馆", "Museum", "Gallery", "Exhibition"]
+wrong_keywords: ["动物园", "水族馆", "海洋馆", "游乐园", "学校", "大学", "学院", "中学", "小学", "校区", "研究所", "研究院", "研究中心", "实验室", "图书馆", "文明实践", "杂志社", "集团", "美发", "美容", "分析室", "工作室", "日报社", "报社", "公司", "医疗", "医院", "诊所", "遗址", "纪念园", "特种设备", "会议", "宾馆", "酒店", "培训", "University", "College", "Zoo", "Aquarium", "Theme Park", "Shop", "Store", "School", "Hotel"]
 
-semantic_checks:
-  - field: "name"
-    rule: "Name must suggest museum, gallery, exhibition, memorial — 博物馆/展览馆/美术馆/纪念馆"
-  - field: "address"
-    rule: "Address must not be a mall, school, or training center"
+allowed_typecodes:      ["140100", "140200", "140400", "110204"]   # 博物馆, 展览馆, 美术馆, 纪念馆 (verify against your table)
+hard_exclude_typecodes: ["141100", "141200", "141400"]             # media, schools, training
+review_typecodes:       ["140300"]                                 # convention/expo centers
+
+excluded_categories: ["shopping", "food", "accommodation"]         # name has no ok keyword -> wrong; has one -> suspicious
+review_categories:   ["scenic", "sports"]                          # -> suspicious (allowed typecodes are exempt)
+
+# certain non-museum types, matched in the Chinese `type` path / `keytag` (check the field exists after normalize_record)
+hard_exclude_type_keywords: ["学校", "高等院校", "中学", "小学", "幼儿园", "成人教育", "职业技术学校", "科研机构", "培训机构", "传媒机构", "图书馆", "档案馆", "文艺团体"]
+review_wrong_keywords: ["会议", "议事", "宴会", "宾馆", "酒店", "饭店", "山庄", "度假", "大厦", "礼堂", "会堂", "影视厅", "报告厅", "教室"]   # inside review_typecodes
+museumish_keywords: ["故居", "旧居", "遗址", "旧址", "纪念", "陈列", "展", "艺术", "文化", "遗产", "古迹", "非遗", "Heritage", "Memorial", "Historic", "Art"]
+
+# NEW: a museum can only be typed in these categories; every other category (life service, medical, company, ...) is non-museum
+museum_possible_categories: ["culture", "scenic"]
+strong_museumish_keywords: ["故居", "旧居", "旧址", "陈列", "展览", "展示", "遗址", "纪念", "非遗", "遗产"]
+ok_suffixes: ["展"]      # a name ending in 展 is an exhibition

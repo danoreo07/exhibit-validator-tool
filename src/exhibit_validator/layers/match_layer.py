@@ -11,7 +11,15 @@ def score_pair(a: dict, b: dict) -> float:
     weights = []
 
     if a.get("name") and b.get("name"):
-        name_sim = fuzz.token_set_ratio(normalize(a["name"]), normalize(b["name"])) / 100
+        name_a = normalize(a["name"])
+        name_b = normalize(b["name"])
+        
+        # SAFETY GUARD 1: If the name length difference is too huge, they are likely different
+        len_ratio = min(len(name_a), len(name_b)) / max(len(name_a), len(name_b))
+        if len_ratio < 0.5:
+            return 0.0
+
+        name_sim = fuzz.token_set_ratio(name_a, name_b) / 100
         scores.append(name_sim)
         weights.append(0.5)
 
@@ -21,15 +29,23 @@ def score_pair(a: dict, b: dict) -> float:
         weights.append(0.3)
 
     if a.get("latitude") and b.get("latitude"):
-        lat_diff = abs(a["latitude"] - b["latitude"])
-        lng_diff = abs(a["longitude"] - b["longitude"])
-        # ~0.001 degree ~ 100m; treat as same spot if below 0.0005
-        coord_sim = max(0, 1 - (lat_diff + lng_diff) / 0.001)
-        scores.append(coord_sim)
-        weights.append(0.2)
+        try:
+            lat_diff = abs(float(a["latitude"]) - float(b["latitude"]))
+            lng_diff = abs(float(a["longitude"]) - float(b["longitude"]))
+            # ~0.001 degree ~ 100m; treat as same spot if below 0.0005
+            coord_sim = max(0, 1 - (lat_diff + lng_diff) / 0.001)
+            scores.append(coord_sim)
+            weights.append(0.2)
+        except (ValueError, TypeError):
+            pass
 
     if not scores:
         return 0.0  # no shared fields -> cannot compare
+
+    # SAFETY GUARD 2: If we ONLY have the name to compare (no address, no coords),
+    # we require a much higher threshold to prevent false merges based on common city names.
+    if len(scores) == 1:
+        return 0.0
 
     total_weight = sum(weights)
     return sum(s * w for s, w in zip(scores, weights)) / total_weight

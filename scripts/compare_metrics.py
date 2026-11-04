@@ -1,58 +1,70 @@
 import json
 import argparse
+import pandas as pd
 from collections import defaultdict
 
 VERDICTS = ["ok", "suspicious", "wrong"]
 
+def load_manual(path: str) -> dict:
+    """Load manual ground truth (supports both .csv and .jsonl)"""
+    data = {}
+    if path.endswith('.csv'):
+        df = pd.read_csv(path)
+        for _, row in df.iterrows():
+            rid = str(row.get("id", "")).strip()
+            if rid:
+                data[rid] = {
+                    "name": str(row.get("name", "")),
+                    "verdict": str(row.get("verdict", "wrong")).strip().lower()
+                }
+    else:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    rec = json.loads(line)
+                    rid = str(rec.get("id", "")).strip()
+                    if rid:
+                        data[rid] = rec
+    return data
+
+def load_system(path: str) -> dict:
+    """Load system output (.json)"""
+    data = {}
+    with open(path, encoding="utf-8") as f:
+        content = json.load(f)
+        for r in content.get("records", []):
+            rid = str(r.get("id", "")).strip()
+            if rid:
+                data[rid] = r.get("verdict", "unknown")
+    return data
+
 def main(manual_path: str, system_path: str):
-    # 1. Load Manual Ground Truth (dict by ID)
-    manual_by_id = {}
-    with open(manual_path, encoding="utf-8") as f:
-        for line in f:
-            if line.strip():
-                rec = json.loads(line)
-                manual_by_id[rec["id"]] = rec
-                
-    # Create a lookup by Name (since system output might lack IDs)
-    manual_by_name = {r["name"]: r for r in manual_by_id.values()}
+    manual_data = load_manual(manual_path)
+    system_data = load_system(system_path)
 
-    # 2. Load System Output
-    with open(system_path, encoding="utf-8") as f:
-        system_data = json.load(f)
-        system_records = system_data.get("records", [])
-        
-    # Map system by Name
-    system_by_name = {r["name"]: r for r in system_records if "name" in r}
-
-    # 3. Compare
     cm = defaultdict(int)
     matched_count = 0
     disagreements = []
 
-    for name, m in manual_by_name.items():
-        if name not in system_by_name:
+    for rid, m in manual_data.items():
+        if rid not in system_data:
             continue
         
         matched_count += 1
-        s = system_by_name[name]
-        
         mv = m["verdict"]
+        sv = system_data[rid]
+        
         if mv == "out_of_scope": 
-            mv = "wrong" # Map out_of_scope to wrong for comparison
-            
-        sv = s.get("verdict", "unknown")
+            mv = "wrong"
+        if sv == "unknown": 
+            sv = "suspicious"
 
         cm[(mv, sv)] += 1
         if mv != sv:
-            disagreements.append({
-                "name": name,
-                "manual": mv,
-                "system": sv,
-                "system_reason": s.get("reason", "")[:80] + "..."
-            })
+            disagreements.append(f"[{mv:10} -> {sv:10}] ID:{rid} - {m.get('name', '')}")
 
-    # 4. Print Report
-    print(f"Matched: {matched_count}/{len(manual_by_id)} records by name\n")
+    # Print Report
+    print(f"Matched: {matched_count}/{len(manual_data)} records by ID\n")
     print(f"{'verdict':12} {'P':>6} {'R':>6} {'F1':>6}  tp  fp  fn")
     print("-" * 50)
     
@@ -67,21 +79,20 @@ def main(manual_path: str, system_path: str):
         
         print(f"{v:12} {p:6.3f} {r:6.3f} {f:6.3f}  {tp:2}  {fp:2}  {fn:2}")
 
-    total_correct = sum(cm[(v, v)] for v in VERDICTS)
-    acc = total_correct / matched_count if matched_count else 0
+    acc = sum(cm[(v, v)] for v in VERDICTS) / matched_count if matched_count else 0
     print("-" * 50)
     print(f"Overall accuracy: {acc:.2%}\n")
     
-    print(f"Disagreements ({len(disagreements)}):")
-    for d in disagreements:
-        print(f"  [{d['manual']:10} -> {d['system']:10}] {d['name']}")
-        # Uncomment the line below if you want to see the system's reasoning
-        # print(f"      Reason: {d['system_reason']}")
+    if disagreements:
+        print(f"Disagreements ({len(disagreements)}):")
+        for d in disagreements[:50]: # Only print max 50 to avoid screen overflow
+            print(" ", d)
+        if len(disagreements) > 50:
+            print(f"  ... and {len(disagreements) - 50} more.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--manual", default="data/ground_truth/manual_review_雷峰塔.jsonl", help="Path to manual ground truth JSONL")
-    parser.add_argument("--system", default="data/outputs/museum_llm_v2.json", help="Path to system output JSON")
+    parser.add_argument("--manual", required=True, help="Path to manual review file (.csv or .jsonl)")
+    parser.add_argument("--system", required=True, help="Path to system output (.json)")
     args = parser.parse_args()
-    
     main(args.manual, args.system)

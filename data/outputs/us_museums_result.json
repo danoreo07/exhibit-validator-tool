@@ -1,0 +1,817 @@
+{
+  "summary": {
+    "total": 50,
+    "wrong": 47,
+    "suspicious": 1,
+    "ok": 2
+  },
+  "pair_flags": [],
+  "records": [
+    {
+      "id": "csv_row_0",
+      "name": "ALASKA AVIATION HERITAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is for the Alaska Aviation Heritage Museum, not a museum in Hangzhou, and its typecode HISTORY MUSEUM is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "title",
+        "name",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_1",
+      "name": "ALASKA BOTANICAL GARDEN",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a botanical garden/nature center, not a museum, gallery, exhibition, or memorial, and it is not located in Hangzhou; the empty address also prevents verifying Hangzhou relevance.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_2",
+      "name": "ALASKA CHALLENGER CENTER FOR SPACE SCIENCE TECHNOLOGY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is not in Hangzhou and appears to be an Alaska space science/technology center rather than a museum, gallery, or exhibition; typecode is also flagged as a disallowed subtype.",
+      "suspicious_fields": [
+        "title",
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_3",
+      "name": "ALASKA EDUCATORS HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an Alaska educators historical society with category/typecode HISTORIC PRESERVATION, not a museum/gallery/exhibition/memorial in Hangzhou; the name lacks the required museum-related keywords.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_4",
+      "name": "ALASKA HERITAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "ALASKA HERITAGE MUSEUM is not in Hangzhou, the address is empty, and typecode HISTORY MUSEUM is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "title",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_5",
+      "name": "ALASKA HISTORICAL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is an Alaska historical museum, not a Hangzhou museum, and its category/typecode is HISTORIC PRESERVATION, which is outside the allowed museum subtype list; the address is empty so Hangzhou location cannot be verified.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_6",
+      "name": "ALASKA JEWISH MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record violates the objective: typecode GENERAL MUSEUM is not in the allowed subtype list, the address is empty so Hangzhou location cannot be verified, and the name indicates Alaska rather than Hangzhou.",
+      "suspicious_fields": [
+        "typecode",
+        "address",
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_7",
+      "name": "ALASKA LIGHTHOUSE ASSOCIATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an Alaska lighthouse association with typecode HISTORIC PRESERVATION, not a museum/gallery/exhibition/memorial in Hangzhou; the name does not suggest a museum and the typecode is explicitly disallowed.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_8",
+      "name": "ALASKA MASONIC LIBRARY AND MUSEUM FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a Masonic museum foundation in Alaska, not a museum in Hangzhou, and its typecode GENERAL MUSEUM is flagged as not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode",
+        "address",
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_9",
+      "name": "ALASKA MINING HALL OF FAME FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is for the Alaska Mining Hall of Fame Foundation, not a museum in Hangzhou; its address is empty and the typecode triggered the disallowed-subtype warning.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_10",
+      "name": "ALASKA NATIONAL GUARD HISTORICAL HOLDING-MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an Alaska National Guard museum, not a Hangzhou museum, and its typecode HISTORIC PRESERVATION is outside the allowed subtype list. The empty address prevents verifying a Hangzhou location.",
+      "suspicious_fields": [
+        "typecode",
+        "category",
+        "address",
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_11",
+      "name": "ALASKA NATIVE HERITAGE CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is the Alaska Native Heritage Center, not a Hangzhou museum; the address is empty and the GENERAL MUSEUM typecode triggered the disallowed-subtype warning.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_12",
+      "name": "ALASKA SEALIFE CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an aquarium/wildlife conservation center, not a museum, gallery, or exhibition, and it is not in Hangzhou; the disallowed typecode confirms it violates the objective.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_13",
+      "name": "ALASKA SPORTS HALL OF FAME",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is 'ALASKA SPORTS HALL OF FAME', not a Hangzhou museum/gallery/exhibition/memorial. Its name lacks the required museum-related keywords, the address is empty, and the GENERAL MUSEUM typecode triggered the disallowed subtype warning.",
+      "suspicious_fields": [
+        "title",
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_14",
+      "name": "ALASKA STATE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is for Alaska State Museum, not a museum in Hangzhou, and its address is empty. The typecode GENERAL MUSEUM was also flagged as not in the allowed subtype list.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "address",
+        "typecode",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_15",
+      "name": "ALASKA TERRITORIAL CAVALRY MOTORIZED",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record does not indicate a Hangzhou museum: the name lacks museum/gallery/exhibition/memorial keywords, the address is empty, and typecode GENERAL MUSEUM is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_16",
+      "name": "ALASKA TROOPER MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is for the Alaska Trooper Museum, not a Hangzhou museum, and its typecode GENERAL MUSEUM is flagged as not in the allowed subtype list. The empty address also provides no Hangzhou evidence.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_17",
+      "name": "ALASKA VETERANS MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an Alaska veterans museum, not a Hangzhou museum; its address is empty and the typecode is flagged as not allowed, so it does not meet the location and subtype objective.",
+      "suspicious_fields": [
+        "title",
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_18",
+      "name": "ALASKA WILDLIFE CONSERVATION CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a wildlife conservation/nature center, not a museum, gallery, exhibition, or memorial, and its typecode is not in the allowed subtype list; the empty address also provides no evidence it is in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_19",
+      "name": "ALASKA ZOO",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is an Alaska Zoo, which is a zoo/wildlife conservation attraction, not a museum, gallery, exhibition, or memorial in Hangzhou. It also lacks a Hangzhou address.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_20",
+      "name": "ALASKALAND PIONEER AIR MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Typecode GENERAL MUSEUM is not in the allowed subtype list, and the record lacks a Hangzhou address; the name also suggests a non-Hangzhou location.",
+      "suspicious_fields": [
+        "typecode",
+        "address",
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_21",
+      "name": "ALPINE HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historical society with typecode/category HISTORIC PRESERVATION, not a museum, gallery, exhibition, or memorial, and the typecode is outside the allowed subtype list. Its name also does not contain museum-related keywords.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_22",
+      "name": "ALUTIIQ HERITAGE ENDOWMENT",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is a historic preservation endowment, not a museum/gallery/exhibition/memorial, and its name lacks required museum keywords; typecode is outside the allowed subtype list.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_23",
+      "name": "ALUTIIQ HERITAGE FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The name 'ALUTIIQ HERITAGE FOUNDATION' does not indicate a museum, gallery, exhibition, or memorial, and there is no address evidence that it is in Hangzhou. The GENERAL MUSEUM typecode is flagged as not allowed by the tripwire.",
+      "suspicious_fields": [
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_24",
+      "name": "AMERICAN TROPHY TAXIDERMY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record does not satisfy the museum criteria: the name 'AMERICAN TROPHY TAXIDERMY' does not suggest a museum/gallery/exhibition/memorial, and the typecode GENERAL MUSEUM triggered an allowed-subtype violation warning. The empty address also prevents verifying it as a Hangzhou museum.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_25",
+      "name": "ANCHORAGE CLAY ARTS GUILD",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The typecode 'ART MUSEUM' is flagged as not in the allowed subtype list, and the record does not establish a valid Hangzhou museum; the name suggests an arts guild rather than a museum and the address is empty.",
+      "suspicious_fields": [
+        "typecode",
+        "name",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_26",
+      "name": "ANCHORAGE GENEALOGICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a genealogical society with typecode HISTORIC PRESERVATION, not a museum, gallery, exhibition, or memorial; it also lacks evidence of being in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_27",
+      "name": "ANCHORAGE HISTORIC PROPERTIES",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historic preservation property, not a museum/gallery/exhibition/memorial, and its name does not indicate a museum. The typecode HISTORIC PRESERVATION is also outside the allowed subtype list.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "category",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_28",
+      "name": "ANCHORAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is for ANCHORAGE MUSEUM, not a museum in Hangzhou; the address is empty, and typecode GENERAL MUSEUM triggered the disallowed subtype warning.",
+      "suspicious_fields": [
+        "address",
+        "name",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_29",
+      "name": "ARC GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Typecode ART MUSEUM is not in the allowed subtype list, so the record violates the collection criteria despite the name suggesting a gallery.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_30",
+      "name": "BARANOV MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is labeled with typecode/category HISTORIC PRESERVATION, which is not in the allowed museum subtype list, and there is no address confirming it is a museum in Hangzhou.",
+      "suspicious_fields": [
+        "typecode",
+        "category",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_31",
+      "name": "BRISTOL BAY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is a historical society, not a museum/gallery/exhibition/memorial; its category/typecode is HISTORIC PRESERVATION (not allowed), and the empty address does not confirm a Hangzhou museum location.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "category",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_32",
+      "name": "BUNNELL STREET GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Typecode 'ART MUSEUM' is flagged as not in the allowed subtype list, and the empty address prevents confirming the required Hangzhou location.",
+      "suspicious_fields": [
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_33",
+      "name": "CAPE DECISION LIGHTHOUSE SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historic preservation society, not a museum, gallery, exhibition, or memorial; the typecode HISTORIC PRESERVATION is not an allowed museum subtype.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_34",
+      "name": "CAPE ST ELIAS LIGHTKEEPERS ASSOCIATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is a historic preservation association, not a museum/gallery/exhibition/memorial, and the disallowed HISTORIC PRESERVATION typecode confirms it does not match the museum objective.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_35",
+      "name": "CARR-GOTTSTEIN GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Typecode ART MUSEUM is not in the allowed subtype list.",
+      "suspicious_fields": [
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "rule",
+      "in_scope": true
+    },
+    {
+      "id": "csv_row_36",
+      "name": "CENTER FOR ALASKAN COASTAL STUDIES",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a nature center with disallowed typecode ARBORETUM, BOTANICAL GARDEN, OR NATURE CENTER and its name does not indicate a museum, gallery, exhibition, or memorial in Hangzhou.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_37",
+      "name": "CHILDREN'S MUSEUM OF ALASKA",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is for the Children's Museum of Alaska, which is not in Hangzhou as required; the address is empty and the typecode triggers the non-allowed subtype warning.",
+      "suspicious_fields": [
+        "title",
+        "name",
+        "address",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_38",
+      "name": "CHILKAT INDIAN VILLAGE",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is not a museum, gallery, exhibition, or memorial; its name lacks museum-related keywords, and its category/typecode is HISTORIC PRESERVATION, which is not an allowed subtype under the objective.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_39",
+      "name": "CHILKAT VALLEY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historical society/historic preservation entity, not a museum, gallery, exhibition, or memorial; its name lacks museum-related keywords, the typecode is disallowed, and it does not indicate a Hangzhou museum.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_40",
+      "name": "CHUGIAK-EAGLE RIVER HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historical society/historic preservation organization, not a museum, gallery, exhibition, or memorial, and the typecode HISTORIC PRESERVATION is outside the allowed subtype list.",
+      "suspicious_fields": [
+        "name",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_41",
+      "name": "CIRCLE DISTRICT HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is not a museum/gallery/exhibition/memorial; its name is 'CIRCLE DISTRICT HISTORICAL SOCIETY' and its typecode 'HISTORIC PRESERVATION' is not in the allowed subtype list. The address is also empty, so Hangzhou location cannot be verified.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_42",
+      "name": "CLAUDIA KELSEY DOLL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Typecode GENERAL MUSEUM is not in the allowed subtype list, and the empty address prevents verifying Hangzhou eligibility.",
+      "suspicious_fields": [
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_43",
+      "name": "CLAUSEN MEMORIAL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "The record name and category clearly identify a history museum/memorial museum, which matches the museum collection objective and does not indicate an excluded type such as a school, shop, or training center.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "csv_row_44",
+      "name": "COLONY HOUSE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Typecode GENERAL MUSEUM is not in the allowed subtype list, and the empty address does not confirm the required Hangzhou museum criterion.",
+      "suspicious_fields": [
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_45",
+      "name": "COPPER VALLEY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is a historical preservation society, not a museum/gallery/exhibition/memorial; its typecode is outside the allowed subtype list and the address is empty, so Hangzhou museum status cannot be verified.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "address",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_46",
+      "name": "CORDOVA HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Record is a historical society with typecode HISTORIC PRESERVATION, not an allowed museum/gallery/exhibition/memorial subtype; the name does not contain museum-related keywords, and the empty address provides no evidence of a Hangzhou museum location.",
+      "suspicious_fields": [
+        "name",
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_47",
+      "name": "DENALI NATIONAL PARK AND PRESERVE",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record is Denali National Park and Preserve, a historic preservation entity, not a museum, gallery, exhibition, or memorial in Hangzhou. Its address is empty, and the typecode HISTORIC PRESERVATION is not an allowed museum subtype.",
+      "suspicious_fields": [
+        "name",
+        "title",
+        "address",
+        "category",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_48",
+      "name": "DOG MUSHING MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "The record triggers a critical typecode warning: GENERAL MUSEUM is not in the allowed subtype list. It also lacks any Hangzhou address evidence, so it does not satisfy the museum collection objective.",
+      "suspicious_fields": [
+        "typecode",
+        "address"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "csv_row_49",
+      "name": "DOROTHY G PAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "The record name contains 'MUSEUM' and category/typecode is GENERAL MUSEUM, which matches the museum objective. The empty address does not indicate a mall, school, or training center.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    }
+  ]
+}

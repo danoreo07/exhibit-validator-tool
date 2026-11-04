@@ -1,0 +1,681 @@
+{
+  "summary": {
+    "total": 50,
+    "wrong": 1,
+    "suspicious": 29,
+    "ok": 20
+  },
+  "pair_flags": [],
+  "records": [
+    {
+      "id": "museums_50_0",
+      "name": "ALASKA AVIATION HERITAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit museum keyword and category matches",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_1",
+      "name": "ALASKA BOTANICAL GARDEN",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name has no explicit museum/gallery/exhibition keyword; botanical garden is not a qualifying venue type.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_2",
+      "name": "ALASKA CHALLENGER CENTER FOR SPACE SCIENCE TECHNOLOGY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum/gallery/exhibition keyword; 'Center' is not enough, and category cannot create ok alone.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_3",
+      "name": "ALASKA EDUCATORS HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name is a historical society without an explicit museum, gallery, or exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_4",
+      "name": "ALASKA HERITAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword Museum; category is consistent history museum.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_5",
+      "name": "ALASKA HISTORICAL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword Museum.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_6",
+      "name": "ALASKA JEWISH MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Museum'; category aligns.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_7",
+      "name": "ALASKA LIGHTHOUSE ASSOCIATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name is an association with no explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_8",
+      "name": "ALASKA MASONIC LIBRARY AND MUSEUM FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name contains 'Museum' but also ambiguous 'Foundation'; pre-check flags doubt.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_9",
+      "name": "ALASKA MINING HALL OF FAME FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks explicit museum/gallery/exhibition keyword and contains ambiguous 'Foundation'; category alone cannot establish 'ok'.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_10",
+      "name": "ALASKA NATIONAL GUARD HISTORICAL HOLDING-MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly includes MUSEUM.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_11",
+      "name": "ALASKA NATIVE HERITAGE CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum/gallery/exhibition keyword; 'Heritage Center' is vague.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_12",
+      "name": "ALASKA SEALIFE CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks explicit museum/gallery/exhibition keyword; category indicates aquarium/zoo.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_13",
+      "name": "ALASKA SPORTS HALL OF FAME",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks explicit museum/gallery/exhibition keyword; 'Hall of Fame' is not sufficient.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_14",
+      "name": "ALASKA STATE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains 'Museum' and category matches.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_15",
+      "name": "ALASKA TERRITORIAL CAVALRY MOTORIZED",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks explicit museum/gallery/exhibition keyword; category alone cannot justify ok.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_16",
+      "name": "ALASKA TROOPER MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains Museum; category aligns.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_17",
+      "name": "ALASKA VETERANS MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Museum'.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_18",
+      "name": "ALASKA WILDLIFE CONSERVATION CENTER",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum, gallery, or exhibition keyword; wildlife conservation center/nature center is ambiguous.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_19",
+      "name": "ALASKA ZOO",
+      "typecode": "",
+      "address": "",
+      "verdict": "wrong",
+      "reason": "Name explicitly identifies a zoo, which is an excluded entity.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": false
+    },
+    {
+      "id": "museums_50_20",
+      "name": "ALASKALAND PIONEER AIR MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Museum' and category is consistent.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_21",
+      "name": "ALPINE HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Historical society name lacks an explicit museum, gallery, or exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_22",
+      "name": "ALUTIIQ HERITAGE ENDOWMENT",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum, gallery, or exhibition keyword; 'Heritage Endowment' is not sufficient.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_23",
+      "name": "ALUTIIQ HERITAGE FOUNDATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name contains 'Foundation' and lacks an explicit museum/gallery/exhibition keyword; category alone cannot establish ok.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_24",
+      "name": "AMERICAN TROPHY TAXIDERMY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum/gallery/exhibition keyword; category alone is insufficient.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_25",
+      "name": "ANCHORAGE CLAY ARTS GUILD",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "'Guild' is an ambiguous organization term, and the name lacks an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_26",
+      "name": "ANCHORAGE GENEALOGICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Genealogical Society is an ambiguous organization and lacks an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_27",
+      "name": "ANCHORAGE HISTORIC PROPERTIES",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks museum/gallery/exhibition keyword; historic preservation entity is ambiguous.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_28",
+      "name": "ANCHORAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword Museum; category aligns.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_29",
+      "name": "ARC GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit gallery keyword",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_30",
+      "name": "BARANOV MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains 'Museum'.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_31",
+      "name": "BRISTOL BAY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name is a historical society without an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_32",
+      "name": "BUNNELL STREET GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Gallery'.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_33",
+      "name": "CAPE DECISION LIGHTHOUSE SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name contains 'Society' and no explicit museum/gallery/exhibition keyword; historic preservation group is ambiguous.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_34",
+      "name": "CAPE ST ELIAS LIGHTKEEPERS ASSOCIATION",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name contains 'Association' and lacks an explicit museum, gallery, or exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_35",
+      "name": "CARR-GOTTSTEIN GALLERY",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Gallery'; category supports art venue.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_36",
+      "name": "CENTER FOR ALASKAN COASTAL STUDIES",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum/gallery/exhibition keyword; nature center category does not qualify.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_37",
+      "name": "CHILDREN'S MUSEUM OF ALASKA",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name contains explicit keyword 'Museum' and refers to a children's museum; mailing address is not relevant.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_38",
+      "name": "CHILKAT INDIAN VILLAGE",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name lacks an explicit museum, gallery, or exhibition keyword; historic preservation alone is insufficient.",
+      "suspicious_fields": [
+        "name",
+        "typecode"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_39",
+      "name": "CHILKAT VALLEY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Name is a historical society with no explicit museum, gallery, or exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_40",
+      "name": "CHUGIAK-EAGLE RIVER HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Historical Society is an ambiguous organization and lacks an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_41",
+      "name": "CIRCLE DISTRICT HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Historical Society is an ambiguous organization and the name lacks an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_42",
+      "name": "CLAUDIA KELSEY DOLL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains Museum and category is General Museum.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_43",
+      "name": "CLAUSEN MEMORIAL MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains 'MUSEUM'",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_44",
+      "name": "COLONY HOUSE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains 'Museum' and category is General Museum.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_45",
+      "name": "COPPER VALLEY HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Historical society is ambiguous and lacks museum/gallery/exhibition keyword",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_46",
+      "name": "CORDOVA HISTORICAL SOCIETY",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "Historical Society is an ambiguous organization and lacks an explicit museum/gallery/exhibition keyword.",
+      "suspicious_fields": [
+        "name",
+        "category"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_47",
+      "name": "DENALI NATIONAL PARK AND PRESERVE",
+      "typecode": "",
+      "address": "",
+      "verdict": "suspicious",
+      "reason": "No explicit museum, gallery, or exhibition keyword in name; park/preserve not sufficient.",
+      "suspicious_fields": [
+        "name"
+      ],
+      "suggested_action": "review",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_48",
+      "name": "DOG MUSHING MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains Museum and category aligns.",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    },
+    {
+      "id": "museums_50_49",
+      "name": "DOROTHY G PAGE MUSEUM",
+      "typecode": "",
+      "address": "",
+      "verdict": "ok",
+      "reason": "Name explicitly contains Museum",
+      "suspicious_fields": [],
+      "suggested_action": "keep",
+      "source_layer": "llm_judge",
+      "in_scope": true
+    }
+  ]
+}

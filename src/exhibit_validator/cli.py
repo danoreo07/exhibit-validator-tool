@@ -1,33 +1,46 @@
-import typer
-from pathlib import Path
 import json
-import dotenv
-from .pipeline import run_pipeline
+import os
+import click
+import yaml
 from dotenv import load_dotenv
+
 load_dotenv()
-app = typer.Typer()
 
+from .pipeline import run_pipeline
 
-@app.command()
-def validate(
-    input_path: Path = typer.Argument(..., help="Path to the input JSON file"),
-    intent_path: Path = typer.Option("configs/intents/tourist_attraction.yaml", help="Path to the intent YAML"),
-    taxonomy_path: Path = typer.Option("configs/taxonomy.yaml", help="Path to the taxonomy YAML"),
-    output_path: Path = typer.Option("data/outputs/result.json", help="Path to write the output JSON"),
-    use_llm: bool = typer.Option(False, "--llm/--no-llm", help="Enable the LLM judge layer"),
-    threshold: float = typer.Option(0.75, help="Similarity threshold for duplicate clustering"),
-):
+@click.command()
+@click.argument("input_path")
+@click.option("--objective", required=True, help="Free-text objective")
+@click.option("--intent-path", help="Optional: Path to a YAML config with predefined rules")
+@click.option("--taxonomy-path", default="configs/taxonomy.yaml", help="Path to taxonomy")
+@click.option("--output-path", default="data/outputs/result.json", help="Output JSON path")
+@click.option("--use-llm", is_flag=True, help="Enable LLM validation")
+def cli(input_path, objective, intent_path, taxonomy_path, output_path, use_llm):
+    """Exhibit Validator CLI"""
+    print(">>> Starting Exhibit Validator...")
+    
+    if intent_path and os.path.exists(intent_path):
+        with open(intent_path, encoding="utf-8") as f:
+            intent = yaml.safe_load(f)
+        print(f">>> Loaded predefined rules from {intent_path}")
+    else:
+        intent = {"objective": objective}
+        print(f">>> No YAML config provided. Using LLM to auto-generate rules for: '{objective}'")
+
+    print(">>> Running pipeline...")
     result = run_pipeline(
-        input_path=str(input_path),
-        intent_path=str(intent_path),
-        taxonomy_path=str(taxonomy_path),
-        use_llm=use_llm,
-        threshold=threshold,
+        input_path=input_path,
+        intent=intent,
+        taxonomy_path=taxonomy_path,
+        use_llm=use_llm
     )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
-    typer.echo(f"Done. Summary: {result['summary']}")
-
+    
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+        
+    print(f"\n>>> Done. Summary: {result['summary']}")
+    print(f">>> Output saved to: {output_path}")
 
 if __name__ == "__main__":
-    app()
+    cli()

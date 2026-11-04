@@ -1,172 +1,194 @@
-import json
-import yaml
-import glob
-import os
-import time
+import json, glob, os, time, hashlib, threading
+import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .layers.rule_layer import rule_check, load_taxonomy, load_intent
-from .layers.match_layer import find_clusters
-from .layers.llm_layer import llm_judge
+from .layers.rule_layer import rule_check, load_taxonomy, strong_ok, hard_type_hit, name_has_ok
+from .layers.match_layer import find_clusters          # TODO: still not called, see notes
+from .layers.llm_layer import llm_judge, parse_intent_with_llm, slim_record
 from .layers.decision_engine import decide
-
-# Import Tripwire Layer 2.5
 from .layers.tripwire import needs_llm_judge
-# Import Schema Normalizer
 from .models.schema import normalize_output
+from .utils.normalizer import normalize_record
 
-def run_pipeline(
-    input_path: str,
-    intent_path: str,
-    taxonomy_path: str,
-    use_llm: bool = False,
-    threshold: float = 0.75,
-) -> dict:
-    intent = load_intent(intent_path)
-    taxonomy = load_taxonomy(taxonomy_path)
-    
+VALID = {"ok", "wrong", "suspicious"}
+
+# ---- Source adapter: one place that knows about a dataset's column names -------------
+CSV_COLUMN_MAP = {            # canonical field -> candidate column names (first non-empty wins)
+    "title":    ["Museum Name", "name", "Name", "title"],
+    "category": ["Museum Type", "category", "type", "typecode"],
+    "street":   ["Street Address (Physical Location)", "Street Address (Administrative Location)", "address"],
+    "city":     ["City (Physical Location)", "City (Administrative Location)", "city"],
+    "state":    ["State (Physical Location)", "State (Administrative Location)", "state"],
+    "zip":      ["Zip Code (Physical Location)", "Zip Code (Administrative Location)", "zip"],
+    "typecode": ["typecode", "Typecode", "type_code"],
+    "latitude": ["Latitude", "latitude", "lat"],
+    "longitude": ["Longitude", "longitude", "lng", "lon"],
+}
+
+def _pick(row, cols):
+    for c in cols:
+        v = row.get(c)
+        if v is not None and str(v).strip() and str(v).lower() != "nan":
+            return str(v).strip()
+    return ""
+
+def _load_csv(file_path):
+    stem = os.path.splitext(os.path.basename(file_path))[0]
+    df = pd.read_csv(file_path, dtype=str, keep_default_na=False)   # str: keeps typecode "060100" intact
+    recs = []
+    for i, row in enumerate(df.to_dict(orient="records")):
+        street = _pick(row, CSV_COLUMN_MAP["street"])
+        addr = ", ".join(p for p in [street] + [_pick(row, CSV_COLUMN_MAP[k]) for k in ("city", "state", "zip")] if p)
+        recs.append({
+            "id": f"{stem}_{i}",                       # was csv_{i}: collided across files
+            "title": _pick(row, CSV_COLUMN_MAP["title"]),
+            "address": addr,
+            "category": _pick(row, CSV_COLUMN_MAP["category"]),
+            "typecode": _pick(row, CSV_COLUMN_MAP["typecode"]),
+            "latitude": _pick(row, CSV_COLUMN_MAP["latitude"]),
+            "longitude": _pick(row, CSV_COLUMN_MAP["longitude"]),
+            "address_is_mailing": street.upper().startswith(("PO BOX", "P.O. BOX", "BOX ")),
+        })
+    return recs
+
+# ---- Guard: LLM may not output ok/wrong without evidence from config -------------------
+def _contains_any(text, kws):
+    t = (text or "").lower()
+    return any(k.lower() in t for k in kws)       # substring: works for CJK and German compounds
+
+def guard_verdict(rec, llm_res, intent):
+    v = llm_res.get("verdict")
+    if v not in VALID:
+        return {**llm_res, "verdict": "suspicious", "reason": f"LLM unavailable/invalid ({v!r}): {llm_res.get('reason', '')}"}
+    name, cat = rec.get("title") or rec.get("name", ""), rec.get("category", "")
+    ok_kw, wrong_kw = intent.get("ok_keywords"), intent.get("wrong_keywords")
+    excl_cat = intent.get("excluded_categories", [])
+    if v == "ok" and ok_kw and not name_has_ok(name, intent):
+        return {**llm_res, "verdict": "suspicious", "reason": "guard: ok without museum/gallery/exhibition keyword in name"}
+    if v == "wrong" and wrong_kw is not None and not (_contains_any(name, wrong_kw) or cat.upper() in [c.upper() for c in excl_cat] or hard_type_hit(rec, intent)):
+        return {**llm_res, "verdict": "suspicious", "reason": "guard: wrong without excluded keyword/category"}
+    return llm_res
+
+CACHE_PATH = os.getenv("LLM_CACHE_PATH", "data/outputs/.llm_cache.jsonl")
+
+def _cache_key(rec):
+    return rec["id"] + ":" + hashlib.md5(json.dumps(slim_record(rec), ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:10]
+
+def _load_cache():
+    cache = {}
+    if os.path.exists(CACHE_PATH):
+        for line in open(CACHE_PATH, encoding="utf-8"):
+            try:
+                d = json.loads(line); cache[d["key"]] = d["res"]
+            except Exception:
+                pass
+    return cache
+
+def run_pipeline(input_path, intent, taxonomy_path="configs/taxonomy.yaml", use_llm=False):
+    if use_llm and "semantic_checks" not in intent:
+        # NOTE: LLM-parsed rules differ per run. Save the result to yaml, review once, then freeze.
+        intent.update(parse_intent_with_llm(intent["objective"]))
+
+    if use_llm and not os.getenv("DASHSCOPE_API_KEY"):
+        raise RuntimeError("use_llm=True but DASHSCOPE_API_KEY is not set")   # fail fast, not 'ok' per record
+
+    taxonomy = load_taxonomy(taxonomy_path) if os.path.exists(taxonomy_path) else {}
+
+    files = (glob.glob(os.path.join(input_path, "*.json")) + glob.glob(os.path.join(input_path, "*.csv"))
+             if os.path.isdir(input_path) else [input_path])
     all_records = []
-    seen_ids = set()
-    
-    # 1. Load data (handle single file or directory)
-    if os.path.isdir(input_path):
-        json_files = glob.glob(os.path.join(input_path, "*.json"))
-    else:
-        json_files = [input_path]
-
-    for file_path in json_files:
-        print(f"Loading {file_path}...")
+    for fp in files:
+        print(f"Loading {fp}...")
         try:
-            with open(file_path, encoding="utf-8") as f:
-                data = json.load(f)
+            if fp.endswith(".csv"):
+                records = _load_csv(fp)
+            else:
+                with open(fp, encoding="utf-8") as f:
+                    data = json.load(f)
                 records = data.get("points", data) if isinstance(data, dict) else data
-                
-                if not isinstance(records, list):
-                    print(f"Warning: {file_path} does not contain a list of records. Skipping.")
-                    continue
-                    
-                for rec in records:
-                    if not isinstance(rec, dict):
-                        continue
-                        
-                    rec_id = rec.get("id")
-                    if rec_id and rec_id not in seen_ids:
-                        seen_ids.add(rec_id)
+            for rec in records:
+                if isinstance(rec, dict):
+                    extra = {k: rec[k] for k in ("address_is_mailing",) if k in rec}
+                    rec = {**normalize_record(rec), **extra}
+                    if rec.get("id"):
                         all_records.append(rec)
         except Exception as e:
-            print(f"Error loading {file_path}: {e}")
+            print(f"Error loading {fp}: {e}")
 
-    print(f"Total unique records loaded: {len(all_records)}")
-    records = all_records
+    order = {r["id"]: i for i, r in enumerate(all_records)}
+    id_to_rec = {r["id"]: r for r in all_records}
+    results, passed, llm_queue = {}, [], []
 
-    results = {}
-    passed = []
-    
-    # [MỚI] Tập hợp các record cần gọi LLM
-    llm_queue = []
-    
-    # Dict để tra cứu record nhanh theo ID
-    id_to_rec = {r["id"]: r for r in records}
-
-    # 2. Layer 1: Rule check (Deterministic)
-    for rec in records:
+    for rec in all_records:                              # Layer 1
         verdict = rule_check(rec, intent, taxonomy)
         if verdict:
             results[rec["id"]] = {**verdict, "name": rec.get("name", "")}
         else:
             passed.append(rec)
 
-    # 3. Layer 2: Matching (Clustering duplicates)
-    clusters, pair_flags = find_clusters(passed, threshold=threshold)
-    for cluster in clusters:
-        for rid in cluster:
-            results.setdefault(rid, {
-                "verdict": "ok",
-                "reason": f"Belongs to duplicate cluster: {cluster}",
-                "suspicious_fields": [],
-                "suggested_action": f"merge_with: {[x for x in cluster if x != rid]}",
-                "source_layer": "matching",
-                "name": next(r["name"] for r in passed if r["id"] == rid),
-            })
+    pair_flags = []                                      # Layer 2: still disabled, see notes
 
-    # 4. Layer 2.5 & Layer 3: Tripwire and LLM Judge
-    for rec in passed:
+    for rec in passed:                                   # Layer 2.5 / 3
         rid = rec["id"]
-        if rid in results:
-            continue # Đã được xử lý ở Layer 2 (matching)
-            
-        # Check Tripwire (Layer 2.5)
-        force_llm, tripwire_reason = needs_llm_judge(rec)
-        
-        if force_llm:
-            if use_llm:
-                # Đưa vào hàng đợi LLM với lý do cụ thể
-                llm_queue.append({"rid": rid, "rec": rec, "reason": tripwire_reason})
-            else:
-                # Nếu tắt LLM, đánh dấu là suspicious để user tự review
-                results[rid] = {
-                    "verdict": "suspicious",
-                    "reason": tripwire_reason,
-                    "suspicious_fields": ["name", "address", "keytag"],
-                    "suggested_action": "review",
-                    "source_layer": "tripwire",
-                    "name": rec.get("name", ""),
-                }
+        force_llm, reason = needs_llm_judge(rec)
+        if not force_llm and strong_ok(rec, intent, taxonomy):     # typecode + keyword agree, nothing flagged
+            results[rid] = {"verdict": "ok", "reason": "Allowed museum typecode and explicit museum keyword in name",
+                            "suspicious_fields": [], "suggested_action": "keep", "source_layer": "rule+typecode",
+                            "name": rec.get("name", "")}
+            continue
+        if use_llm:
+            trip = {"verdict": "suspicious", "reason": reason, "source_layer": "tripwire"} if force_llm else None
+            llm_queue.append({"rid": rid, "rec": rec, "reason": reason if force_llm else "", "trip": trip})
         else:
-            # Nếu không bị tripwire, đánh dấu là ok (passed all checks)
-            results[rid] = {
-                "verdict": "ok",
-                "reason": "All checks passed.",
-                "suspicious_fields": [],
-                "suggested_action": "keep",
-                "source_layer": "matching",
-                "name": rec.get("name", ""),
-            }
+            # never default to "ok": no evidence means a human looks at it
+            results[rid] = {"verdict": "suspicious",
+                            "reason": reason if force_llm else "no rule matched (LLM disabled)",
+                            "suggested_action": "review", "source_layer": "tripwire", "name": rec.get("name", "")}
 
-    # 5. Layer 3: LLM judge for ambiguous cases
     if use_llm and llm_queue:
-        print(f"Sending {len(llm_queue)} tripwire records to LLM Judge...")
-        
-        def process_record(item):
-            rec = item["rec"]
-            time.sleep(0.5) # Prevent rate limiting
-            # Call LLM with extra context
-            llm_result = llm_judge(rec, intent, extra_context=item["reason"])
-            return item["rid"], llm_result
+        print(f"Sending {len(llm_queue)} records to LLM Judge...")
+        cache, lock = _load_cache(), threading.Lock()
+        os.makedirs(os.path.dirname(CACHE_PATH) or ".", exist_ok=True)
+        print(f"Cache: {len(cache)} verdicts already stored ({CACHE_PATH})")
 
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {executor.submit(process_record, item): item["rid"] for item in llm_queue}
-            
-            completed = 0
-            for future in as_completed(futures):
-                rid, llm_result = future.result()
-                if llm_result:
-                    rule_result = results.get(rid, {})
-                    # Sử dụng decision_engine để kết hợp rule & LLM result
-                    final = decide(rule_result, llm_result)
-                    results[rid] = {**final, "name": id_to_rec[rid].get("name", "")}
-                
-                completed += 1
-                if completed % 10 == 0:
-                    print(f"Progress: {completed}/{len(llm_queue)} processed...")
+        def process(item):
+            key = _cache_key(item["rec"])
+            if key in cache:
+                return cache[key]
+            time.sleep(0.5)
+            res = llm_judge(item["rec"], intent, extra_context=item["reason"])
+            if res and res.get("verdict") in VALID:        # only cache real answers, never errors
+                with lock, open(CACHE_PATH, "a", encoding="utf-8") as f:
+                    f.write(json.dumps({"key": key, "res": res}, ensure_ascii=False) + "\n")
+            return res
 
-    # 6. Generate summary statistics
-    summary = {
-        "total": len(records),
-        "wrong": sum(1 for v in results.values() if v["verdict"] == "wrong"),
-        "suspicious": sum(1 for v in results.values() if v["verdict"] == "suspicious"),
-        "ok": sum(1 for v in results.values() if v["verdict"] == "ok"),
-    }
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            futures = {ex.submit(process, it): it for it in llm_queue}
+            for n, fut in enumerate(as_completed(futures), 1):
+                it = futures[fut]; rid, rec = it["rid"], it["rec"]
+                err = "empty response"
+                try:
+                    llm_res = fut.result()
+                except Exception as e:
+                    llm_res, err = None, str(e)
+                if llm_res:
+                    final = decide(it["trip"], guard_verdict(rec, llm_res, intent))
+                else:   # failure must never drop the record silently
+                    final = {"verdict": "suspicious", "reason": f"llm_error: {err}",
+                             "suggested_action": "review", "source_layer": "llm_error"}
+                results[rid] = {**final, "name": rec.get("name", "")}
+                if n % 10 == 0:
+                    print(f"Progress: {n}/{len(llm_queue)}")
 
-    # 7. [MỚI] Normalize Output trước khi trả về
     for rid, res in results.items():
-        if "id" not in res:
-            res["id"] = rid
-            
-    normalized_records = normalize_output(list(results.values()))
+        res.setdefault("id", rid)
+    missing = [r for r in order if r not in results]    # safety net: every input record gets a verdict
+    for rid in missing:
+        results[rid] = {"id": rid, "verdict": "suspicious", "reason": "missing result", "name": id_to_rec[rid].get("name", ""),
+                        "suggested_action": "review", "source_layer": "safety_net"}
 
-    return {
-        "summary": summary,
-        "pair_flags": pair_flags,
-        "records": normalized_records,
-    }
+    ordered = sorted(results.values(), key=lambda r: order.get(r["id"], 1e9))   # stable input order
+    summary = {"total": len(all_records)}
+    summary.update({k: sum(1 for v in ordered if v["verdict"] == k) for k in ("wrong", "suspicious", "ok")})
+    assert sum(summary[k] for k in VALID) == summary["total"], "summary does not add up"
+    return {"summary": summary, "pair_flags": pair_flags, "records": normalize_output(ordered)}

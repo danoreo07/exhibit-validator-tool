@@ -1,0 +1,50 @@
+{"id":"csv_0","name":"ALASKA AVIATION HERITAGE MUSEUM","verdict":"ok"}
+{"id":"csv_1","name":"ALASKA BOTANICAL GARDEN","verdict":"wrong"}
+{"id":"csv_2","name":"ALASKA CHALLENGER CENTER FOR SPACE SCIENCE TECHNOLOGY","verdict":"ok"}
+{"id":"csv_3","name":"ALASKA EDUCATORS HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_4","name":"ALASKA HERITAGE MUSEUM","verdict":"ok"}
+{"id":"csv_5","name":"ALASKA HISTORICAL MUSEUM","verdict":"ok"}
+{"id":"csv_6","name":"ALASKA JEWISH MUSEUM","verdict":"ok"}
+{"id":"csv_7","name":"ALASKA LIGHTHOUSE ASSOCIATION","verdict":"suspicious"}
+{"id":"csv_8","name":"ALASKA MASONIC LIBRARY AND MUSEUM FOUNDATION","verdict":"ok"}
+{"id":"csv_9","name":"ALASKA MINING HALL OF FAME FOUNDATION","verdict":"ok"}
+{"id":"csv_10","name":"ALASKA NATIONAL GUARD HISTORICAL HOLDING-MUSEUM","verdict":"ok"}
+{"id":"csv_11","name":"ALASKA NATIVE HERITAGE CENTER","verdict":"ok"}
+{"id":"csv_12","name":"ALASKA SEALIFE CENTER","verdict":"wrong"}
+{"id":"csv_13","name":"ALASKA SPORTS HALL OF FAME","verdict":"ok"}
+{"id":"csv_14","name":"ALASKA STATE MUSEUM","verdict":"ok"}
+{"id":"csv_15","name":"ALASKA TERRITORIAL CAVALRY MOTORIZED","verdict":"ok"}
+{"id":"csv_16","name":"ALASKA TROOPER MUSEUM","verdict":"ok"}
+{"id":"csv_17","name":"ALASKA VETERANS MUSEUM","verdict":"ok"}
+{"id":"csv_18","name":"ALASKA WILDLIFE CONSERVATION CENTER","verdict":"wrong"}
+{"id":"csv_19","name":"ALASKA ZOO","verdict":"wrong"}
+{"id":"csv_20","name":"ALASKALAND PIONEER AIR MUSEUM","verdict":"ok"}
+{"id":"csv_21","name":"ALPINE HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_22","name":"ALUTIIQ HERITAGE ENDOWMENT","verdict":"suspicious"}
+{"id":"csv_23","name":"ALUTIIQ HERITAGE FOUNDATION","verdict":"ok"}
+{"id":"csv_24","name":"AMERICAN TROPHY TAXIDERMY","verdict":"wrong"}
+{"id":"csv_25","name":"ANCHORAGE CLAY ARTS GUILD","verdict":"ok"}
+{"id":"csv_26","name":"ANCHORAGE GENEALOGICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_27","name":"ANCHORAGE HISTORIC PROPERTIES","verdict":"wrong"}
+{"id":"csv_28","name":"ANCHORAGE MUSEUM","verdict":"ok"}
+{"id":"csv_29","name":"ARC GALLERY","verdict":"ok"}
+{"id":"csv_30","name":"BARANOV MUSEUM","verdict":"ok"}
+{"id":"csv_31","name":"BRISTOL BAY HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_32","name":"BUNNELL STREET GALLERY","verdict":"ok"}
+{"id":"csv_33","name":"CAPE DECISION LIGHTHOUSE SOCIETY","verdict":"suspicious"}
+{"id":"csv_34","name":"CAPE ST ELIAS LIGHTKEEPERS ASSOCIATION","verdict":"suspicious"}
+{"id":"csv_35","name":"CARR-GOTTSTEIN GALLERY","verdict":"ok"}
+{"id":"csv_36","name":"CENTER FOR ALASKAN COASTAL STUDIES","verdict":"wrong"}
+{"id":"csv_37","name":"CHILDREN'S MUSEUM OF ALASKA","verdict":"ok"}
+{"id":"csv_38","name":"CHILKAT INDIAN VILLAGE","verdict":"suspicious"}
+{"id":"csv_39","name":"CHILKAT VALLEY HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_40","name":"CHUGIAK-EAGLE RIVER HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_41","name":"CIRCLE DISTRICT HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_42","name":"CLAUDIA KELSEY DOLL MUSEUM","verdict":"ok"}
+{"id":"csv_43","name":"CLAUSEN MEMORIAL MUSEUM","verdict":"ok"}
+{"id":"csv_44","name":"COLONY HOUSE MUSEUM","verdict":"ok"}
+{"id":"csv_45","name":"COPPER VALLEY HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_46","name":"CORDOVA HISTORICAL SOCIETY","verdict":"suspicious"}
+{"id":"csv_47","name":"DENALI NATIONAL PARK AND PRESERVE","verdict":"wrong"}
+{"id":"csv_48","name":"DOG MUSHING MUSEUM","verdict":"ok"}
+{"id":"csv_49","name":"DOROTHY G PAGE MUSEUM","verdict":"ok"}
