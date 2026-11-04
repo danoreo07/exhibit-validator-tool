@@ -13,7 +13,7 @@ load_dotenv()
 st.set_page_config(page_title="Exhibit Validator", page_icon="🏛️", layout="wide")
 
 # Backend URL (Change to your Render URL when deployed)
-BACKEND_URL = "http://127.0.0.1:8000"
+BACKEND_URL = "https://exhibit-validator-tool.onrender.com"
 
 # Translations
 TRANSLATIONS = {
