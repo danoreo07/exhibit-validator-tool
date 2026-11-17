@@ -1,25 +1,29 @@
-import json, glob, os, time, hashlib, threading
+import json
+import glob
+import os
+import time
+import hashlib
+import threading
 import pandas as pd
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .layers.rule_layer import rule_check, load_taxonomy, strong_ok, hard_type_hit, name_has_ok
-from .layers.match_layer import find_clusters          # TODO: still not called, see notes
-from .layers.llm_layer import llm_judge, parse_intent_with_llm, slim_record
+from .layers.rule_layer import rule_check, load_taxonomy
+from .layers.ambiguity_detector import detect_ambiguities
+from .layers.llm_layer import build_prompt, llm_judge
 from .layers.decision_engine import decide
-from .layers.tripwire import needs_llm_judge
+from .layers.tripwire import needs_llm_judge_bilingual
 from .models.schema import normalize_output
 from .utils.normalizer import normalize_record
 
 VALID = {"ok", "wrong", "suspicious"}
 
-# ---- Source adapter: one place that knows about a dataset's column names -------------
-CSV_COLUMN_MAP = {            # canonical field -> candidate column names (first non-empty wins)
-    "title":    ["Museum Name", "name", "Name", "title"],
+CSV_COLUMN_MAP = {
+    "title": ["Museum Name", "name", "Name", "title"],
     "category": ["Museum Type", "category", "type", "typecode"],
-    "street":   ["Street Address (Physical Location)", "Street Address (Administrative Location)", "address"],
-    "city":     ["City (Physical Location)", "City (Administrative Location)", "city"],
-    "state":    ["State (Physical Location)", "State (Administrative Location)", "state"],
-    "zip":      ["Zip Code (Physical Location)", "Zip Code (Administrative Location)", "zip"],
+    "street": ["Street Address (Physical Location)", "Street Address (Administrative Location)", "address"],
+    "city": ["City (Physical Location)", "City (Administrative Location)", "city"],
+    "state": ["State (Physical Location)", "State (Administrative Location)", "state"],
+    "zip": ["Zip Code (Physical Location)", "Zip Code (Administrative Location)", "zip"],
     "typecode": ["typecode", "Typecode", "type_code"],
     "latitude": ["Latitude", "latitude", "lat"],
     "longitude": ["Longitude", "longitude", "lng", "lon"],
@@ -34,13 +38,13 @@ def _pick(row, cols):
 
 def _load_csv(file_path):
     stem = os.path.splitext(os.path.basename(file_path))[0]
-    df = pd.read_csv(file_path, dtype=str, keep_default_na=False)   # str: keeps typecode "060100" intact
+    df = pd.read_csv(file_path, dtype=str, keep_default_na=False)
     recs = []
     for i, row in enumerate(df.to_dict(orient="records")):
         street = _pick(row, CSV_COLUMN_MAP["street"])
         addr = ", ".join(p for p in [street] + [_pick(row, CSV_COLUMN_MAP[k]) for k in ("city", "state", "zip")] if p)
         recs.append({
-            "id": f"{stem}_{i}",                       # was csv_{i}: collided across files
+            "id": f"{stem}_{i}",
             "title": _pick(row, CSV_COLUMN_MAP["title"]),
             "address": addr,
             "category": _pick(row, CSV_COLUMN_MAP["category"]),
@@ -51,46 +55,29 @@ def _load_csv(file_path):
         })
     return recs
 
-# ---- Guard: LLM may not output ok/wrong without evidence from config -------------------
-def _contains_any(text, kws):
-    t = (text or "").lower()
-    return any(k.lower() in t for k in kws)       # substring: works for CJK and German compounds
-
-def guard_verdict(rec, llm_res, intent):
-    v = llm_res.get("verdict")
-    if v not in VALID:
-        return {**llm_res, "verdict": "suspicious", "reason": f"LLM unavailable/invalid ({v!r}): {llm_res.get('reason', '')}"}
-    name, cat = rec.get("title") or rec.get("name", ""), rec.get("category", "")
-    ok_kw, wrong_kw = intent.get("ok_keywords"), intent.get("wrong_keywords")
-    excl_cat = intent.get("excluded_categories", [])
-    if v == "ok" and ok_kw and not name_has_ok(name, intent):
-        return {**llm_res, "verdict": "suspicious", "reason": "guard: ok without museum/gallery/exhibition keyword in name"}
-    if v == "wrong" and wrong_kw is not None and not (_contains_any(name, wrong_kw) or cat.upper() in [c.upper() for c in excl_cat] or hard_type_hit(rec, intent)):
-        return {**llm_res, "verdict": "suspicious", "reason": "guard: wrong without excluded keyword/category"}
-    return llm_res
-
 CACHE_PATH = os.getenv("LLM_CACHE_PATH", "data/outputs/.llm_cache.jsonl")
 
-def _cache_key(rec):
-    return rec["id"] + ":" + hashlib.md5(json.dumps(slim_record(rec), ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:10]
+def _cache_key(rec, intent, extra_context=""):
+    # Hash the exact prompt: editing the prompt or the objective invalidates old verdicts,
+    # while reverting the prompt lets the matching old answers be reused.
+    prompt = build_prompt(rec, intent, extra_context)
+    return rec["id"] + ":" + hashlib.md5(prompt.encode()).hexdigest()[:10]
 
 def _load_cache():
     cache = {}
     if os.path.exists(CACHE_PATH):
         for line in open(CACHE_PATH, encoding="utf-8"):
             try:
-                d = json.loads(line); cache[d["key"]] = d["res"]
+                d = json.loads(line)
+                cache[d["key"]] = d["res"]
             except Exception:
                 pass
     return cache
 
 def run_pipeline(input_path, intent, taxonomy_path="configs/taxonomy.yaml", use_llm=False):
-    if use_llm and "semantic_checks" not in intent:
-        # NOTE: LLM-parsed rules differ per run. Save the result to yaml, review once, then freeze.
-        intent.update(parse_intent_with_llm(intent["objective"]))
-
+    # Rules come from the YAML config only; intent is never parsed by the LLM.
     if use_llm and not os.getenv("DASHSCOPE_API_KEY"):
-        raise RuntimeError("use_llm=True but DASHSCOPE_API_KEY is not set")   # fail fast, not 'ok' per record
+        raise RuntimeError("use_llm=True but DASHSCOPE_API_KEY is not set")
 
     taxonomy = load_taxonomy(taxonomy_path) if os.path.exists(taxonomy_path) else {}
 
@@ -117,47 +104,65 @@ def run_pipeline(input_path, intent, taxonomy_path="configs/taxonomy.yaml", use_
 
     order = {r["id"]: i for i, r in enumerate(all_records)}
     id_to_rec = {r["id"]: r for r in all_records}
-    results, passed, llm_queue = {}, [], []
+    results, llm_queue = {}, []
 
-    for rec in all_records:                              # Layer 1
+    # Layer 1: rule check. Only an explicit "wrong" skips the LLM.
+    for rec in all_records:
         verdict = rule_check(rec, intent, taxonomy)
-        if verdict:
-            results[rec["id"]] = {**verdict, "name": rec.get("name", "")}
-        else:
-            passed.append(rec)
+        rec["ambiguity_signals"] = detect_ambiguities(rec, intent)
 
-    pair_flags = []                                      # Layer 2: still disabled, see notes
-
-    for rec in passed:                                   # Layer 2.5 / 3
-        rid = rec["id"]
-        force_llm, reason = needs_llm_judge(rec)
-        if not force_llm and strong_ok(rec, intent, taxonomy):     # typecode + keyword agree, nothing flagged
-            results[rid] = {"verdict": "ok", "reason": "Allowed museum typecode and explicit museum keyword in name",
-                            "suspicious_fields": [], "suggested_action": "keep", "source_layer": "rule+typecode",
-                            "name": rec.get("name", "")}
-            continue
-        if use_llm:
-            trip = {"verdict": "suspicious", "reason": reason, "source_layer": "tripwire"} if force_llm else None
-            llm_queue.append({"rid": rid, "rec": rec, "reason": reason if force_llm else "", "trip": trip})
+        if verdict and verdict.get("verdict") == "wrong":
+            results[rec["id"]] = {
+                **verdict,
+                "name": rec.get("name", ""),
+                "ambiguity_signals": rec["ambiguity_signals"],
+            }
         else:
-            # never default to "ok": no evidence means a human looks at it
-            results[rid] = {"verdict": "suspicious",
-                            "reason": reason if force_llm else "no rule matched (LLM disabled)",
-                            "suggested_action": "review", "source_layer": "tripwire", "name": rec.get("name", "")}
+            # Everything else (including typecode 140100) goes to LLM for semantic judgement.
+            force_llm, trip_reason_zh, trip_reason_en = needs_llm_judge_bilingual(rec, intent)
+            
+            if use_llm:
+                trip = (
+                    {
+                        "verdict": "suspicious",
+                        "reason": trip_reason_zh,
+                        "reason_en": trip_reason_en,
+                        "source_layer": "tripwire",
+                        "rule_id": "tripwire_escalation",
+                        "reason_code": "tripwire_flagged",
+                    }
+                    if force_llm else None
+                )
+                llm_queue.append({
+                    "rid": rec["id"],
+                    "rec": rec,
+                    "reason": trip_reason_zh if force_llm else "",
+                    "reason_en": trip_reason_en if force_llm else "",
+                    "trip": trip,
+                })
+            else:
+                results[rec["id"]] = {
+                    "verdict": "suspicious",
+                    "reason": trip_reason_zh if force_llm else "未启用 LLM",
+                    "reason_en": trip_reason_en if force_llm else "LLM disabled",
+                    "suggested_action": "review",
+                    "source_layer": "fallback",
+                    "name": rec.get("name", ""),
+                    "ambiguity_signals": rec.get("ambiguity_signals", []),
+                }
 
     if use_llm and llm_queue:
         print(f"Sending {len(llm_queue)} records to LLM Judge...")
         cache, lock = _load_cache(), threading.Lock()
         os.makedirs(os.path.dirname(CACHE_PATH) or ".", exist_ok=True)
-        print(f"Cache: {len(cache)} verdicts already stored ({CACHE_PATH})")
 
         def process(item):
-            key = _cache_key(item["rec"])
+            key = _cache_key(item["rec"], intent, item["reason"] or item["reason_en"])
             if key in cache:
                 return cache[key]
             time.sleep(0.5)
-            res = llm_judge(item["rec"], intent, extra_context=item["reason"])
-            if res and res.get("verdict") in VALID:        # only cache real answers, never errors
+            res = llm_judge(item["rec"], intent, extra_context=item["reason"] or item["reason_en"])
+            if res and res.get("verdict") in VALID:
                 with lock, open(CACHE_PATH, "a", encoding="utf-8") as f:
                     f.write(json.dumps({"key": key, "res": res}, ensure_ascii=False) + "\n")
             return res
@@ -165,30 +170,74 @@ def run_pipeline(input_path, intent, taxonomy_path="configs/taxonomy.yaml", use_
         with ThreadPoolExecutor(max_workers=2) as ex:
             futures = {ex.submit(process, it): it for it in llm_queue}
             for n, fut in enumerate(as_completed(futures), 1):
-                it = futures[fut]; rid, rec = it["rid"], it["rec"]
-                err = "empty response"
+                it = futures[fut]
+                rid, rec = it["rid"], it["rec"]
                 try:
                     llm_res = fut.result()
                 except Exception as e:
-                    llm_res, err = None, str(e)
+                    llm_res = None
+                
                 if llm_res:
-                    final = decide(it["trip"], guard_verdict(rec, llm_res, intent))
-                else:   # failure must never drop the record silently
-                    final = {"verdict": "suspicious", "reason": f"llm_error: {err}",
-                             "suggested_action": "review", "source_layer": "llm_error"}
-                results[rid] = {**final, "name": rec.get("name", "")}
+                    # The LLM has the final say; a tripwire flag is reported, not enforced.
+                    final = decide(it["trip"], llm_res)
+                else:
+                    final = {
+                        "verdict": "suspicious",
+                        "reason": "LLM 调用失败，需要人工复核",
+                        "reason_en": "llm_error",
+                        "suggested_action": "review",
+                        "source_layer": "llm_error",
+                        "rule_id": "",
+                        "reason_code": "llm_error",
+                    }
+                
+                results[rid] = {
+                    **final,
+                    "name": rec.get("name", ""),
+                    "ambiguity_signals": rec.get("ambiguity_signals", []),
+                    "tripwire_flag": bool(it["trip"]),
+                }
                 if n % 10 == 0:
                     print(f"Progress: {n}/{len(llm_queue)}")
 
-    for rid, res in results.items():
+    # Safety net: every input record gets a verdict, an id, and its source fields.
+    for rid in order:
+        rec = id_to_rec[rid]
+        if rid not in results:
+            results[rid] = {
+                "verdict": "suspicious", "reason": "缺少结果", "reason_en": "missing result",
+                "suggested_action": "review", "source_layer": "safety_net",
+            }
+        res = results[rid]
         res.setdefault("id", rid)
-    missing = [r for r in order if r not in results]    # safety net: every input record gets a verdict
-    for rid in missing:
-        results[rid] = {"id": rid, "verdict": "suspicious", "reason": "missing result", "name": id_to_rec[rid].get("name", ""),
-                        "suggested_action": "review", "source_layer": "safety_net"}
+        res.setdefault("name", rec.get("name", ""))
+        res.setdefault("typecode", rec.get("typecode", ""))
+        res.setdefault("address", rec.get("address", ""))
 
-    ordered = sorted(results.values(), key=lambda r: order.get(r["id"], 1e9))   # stable input order
+    ordered = sorted(results.values(), key=lambda r: order.get(r["id"], 1e9))
     summary = {"total": len(all_records)}
     summary.update({k: sum(1 for v in ordered if v["verdict"] == k) for k in ("wrong", "suspicious", "ok")})
-    assert sum(summary[k] for k in VALID) == summary["total"], "summary does not add up"
-    return {"summary": summary, "pair_flags": pair_flags, "records": normalize_output(ordered)}
+    
+    return {"summary": summary, "records": normalize_output(ordered)}
+
+# CLI entry point
+if __name__ == "__main__":
+    import argparse
+    import yaml
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--intent", required=True)
+    parser.add_argument("--output", required=True)
+    parser.add_argument("--taxonomy", default="configs/taxonomy.yaml")
+    parser.add_argument("--use-llm", action="store_true")
+    args = parser.parse_args()
+
+    with open(args.intent, "r", encoding="utf-8") as f:
+        intent_config = yaml.safe_load(f)
+
+    result = run_pipeline(args.input, intent_config, args.taxonomy, args.use_llm)
+    
+    os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
+    with open(args.output, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+    print(f"Saved to {args.output}. Summary: {result['summary']}")

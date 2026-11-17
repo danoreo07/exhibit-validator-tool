@@ -18,16 +18,15 @@ from .pipeline import run_pipeline
 def cli(input_path, objective, intent_path, taxonomy_path, output_path, use_llm):
     """Exhibit Validator CLI"""
     print(">>> Starting Exhibit Validator...")
-    
+
     if intent_path and os.path.exists(intent_path):
         with open(intent_path, encoding="utf-8") as f:
             intent = yaml.safe_load(f)
         print(f">>> Loaded predefined rules from {intent_path}")
     else:
         intent = {"objective": objective}
-        print(f">>> No YAML config provided. Using LLM to auto-generate rules for: '{objective}'")
+        print(">>> No YAML config provided. Using built-in defaults.")
 
-    print(">>> Running pipeline...")
     result = run_pipeline(
         input_path=input_path,
         intent=intent,

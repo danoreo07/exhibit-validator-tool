@@ -1,4 +1,9 @@
+import logging
+
 from rapidfuzz import fuzz
+
+logger = logging.getLogger(__name__)
+
 
 def normalize(text: str) -> str:
     if not text:
@@ -50,9 +55,12 @@ def score_pair(a: dict, b: dict) -> float:
     total_weight = sum(weights)
     return sum(s * w for s, w in zip(scores, weights)) / total_weight
 
-def find_clusters(records: list[dict], threshold: float = 0.75) -> tuple[list[list[str]], list[dict]]:
+def find_clusters(
+    records: list[dict], threshold: float = 0.75
+) -> tuple[list[list[str]], list[dict]]:
     """Return duplicate clusters and gray-zone pair flags."""
     n = len(records)
+    total_possible_pairs = n * (n - 1) / 2
     parent = list(range(n))
 
     def find(x):
@@ -65,8 +73,11 @@ def find_clusters(records: list[dict], threshold: float = 0.75) -> tuple[list[li
         parent[find(x)] = find(y)
 
     pair_flags = []
+    # Current blocking strategy: every possible pair is a candidate (no filter yet).
+    candidate_pairs = 0
     for i in range(n):
         for j in range(i + 1, n):
+            candidate_pairs += 1
             sim = score_pair(records[i], records[j])
             if sim >= threshold:
                 union(i, j)
@@ -74,9 +85,22 @@ def find_clusters(records: list[dict], threshold: float = 0.75) -> tuple[list[li
                     pair_flags.append({
                         "pair": [records[i]["id"], records[j]["id"]],
                         "similarity": round(sim, 2),
-                        "reason": "Similarity falls in the gray zone.",
+                        "reason": "相似度落在灰色区间。",
+                        "reason_en": "Similarity falls in the gray zone.",
                         "suggested_action": "review",
                     })
+
+    reduction_ratio = (
+        1 - (candidate_pairs / total_possible_pairs)
+        if total_possible_pairs > 0
+        else 0.0
+    )
+    # Make instrumentation visible in standalone runs without overriding app logging.
+    if not logging.getLogger().handlers:
+        logging.basicConfig(level=logging.INFO, format="%(message)s")
+    logger.info("Total possible pairs: %d", int(total_possible_pairs))
+    logger.info("Candidate pairs: %d", candidate_pairs)
+    logger.info("Blocking reduction ratio: %.2f%%", reduction_ratio * 100)
 
     clusters = {}
     for i in range(n):

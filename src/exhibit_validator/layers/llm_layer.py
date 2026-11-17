@@ -1,15 +1,34 @@
-import json, os, re, time
+import json
+import os
+import re
+import time
 from openai import OpenAI
 
-api_key = os.getenv("DASHSCOPE_API_KEY")
-model_name = os.getenv("DASHSCOPE_MODEL", "deepseek-v4.1-flash-1017")
-client = OpenAI(base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
-                api_key=api_key, timeout=60.0, max_retries=2)
+BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+DEFAULT_MODEL = "deepseek-v4.1-flash-1017"
+
+_client: OpenAI | None = None
+
+
+def _get_api_key() -> str:
+    return os.getenv("DASHSCOPE_API_KEY") or ""
+
+
+def _get_model() -> str:
+    return os.getenv("DASHSCOPE_MODEL") or DEFAULT_MODEL
+
+
+def _get_client() -> OpenAI:
+    """Build the client lazily so importing this module never needs credentials."""
+    global _client
+    if _client is None:
+        api_key = _get_api_key()
+        if not api_key:
+            raise RuntimeError("DASHSCOPE_API_KEY is not set")
+        _client = OpenAI(base_url=BASE_URL, api_key=api_key, timeout=60.0, max_retries=2)
+    return _client
 
 VALID = {"ok", "wrong", "suspicious"}
-DEFAULT_OK = ["Museum", "Gallery", "Exhibition", "博物馆", "博物院", "美术馆", "展览馆", "纪念馆", "画廊"]
-DEFAULT_WRONG = ["Zoo", "Aquarium", "Wildlife Conservation", "Theme Park", "Shop", "Store", "School", "Hotel",
-                 "动物园", "水族馆", "海洋馆", "游乐园", "学校", "酒店", "培训"]
 
 def _parse_json(text: str) -> dict:
     text = (text or "").strip()
@@ -18,60 +37,67 @@ def _parse_json(text: str) -> dict:
     return json.loads(m.group(0) if m else text)
 
 def parse_intent_with_llm(objective: str) -> dict:
-    """Run ONCE, review the output, save it to yaml and freeze it. Do not call on every run."""
-    prompt = f"""Objective: "{objective}"
-Return ONLY JSON: {{"semantic_checks":[{{"field":"name","rule":"..."}}]}}
-Rules must be strict: a name is valid only with an explicit keyword for the target entity.
-Never treat vague words (art, heritage, center, house) as sufficient."""
-    try:
-        r = client.chat.completions.create(model=model_name, temperature=0, max_tokens=1024,
-                                           messages=[{"role": "user", "content": prompt}])
-        return _parse_json(r.choices[0].message.content)
-    except Exception as e:
-        print(f"[!] Failed to parse intent via LLM: {e}; using strict fallback.")
-        return {"semantic_checks": [{"field": "name", "rule":
-                "Valid only if name contains museum/gallery/exhibition keyword. Invalid only if it explicitly names zoo, aquarium, shop, school. Otherwise suspicious."}]}
+    # Placeholder for future dynamic intent parsing
+    return {"semantic_checks": [{"field": "name", "rule": "strict"}]}
 
-# Only fields with classification value. Excluded on purpose: photos, rating, open_time, location,
-# childtype and `description` (rule-generated from name/address/type, so it adds no evidence).
 LLM_FIELDS = ("name", "title", "typecode", "type", "keytag", "category", "address", "cityname", "adname")
 
 def slim_record(record: dict) -> dict:
     return {k: record[k] for k in LLM_FIELDS if record.get(k)}
 
-def build_prompt(record: dict, intent: dict, extra_context: str = "") -> str:
-    ok_kw = ", ".join(intent.get("ok_keywords") or DEFAULT_OK)
-    wrong_kw = ", ".join(intent.get("wrong_keywords") or DEFAULT_WRONG)
-    hint = f"\n[PRE-CHECK FLAG]\n{extra_context}\n(Treat this flag as a reason to doubt; it can never turn the answer into 'ok'.)\n" if extra_context else ""
-    return f"""You classify whether a place is a Museum, Art Gallery, or Exhibition venue.
+def build_prompt(record: dict, intent: dict, extra_context: str = "", detailed: bool = True) -> str:
+    hint = f"\n[System Alert]\n{extra_context}\n" if extra_context else ""
+    data = json.dumps(slim_record(record), ensure_ascii=False)
 
-[OBJECTIVE]
-{intent.get("objective", "Validate the record.")}
-
-[RECORD]
-{json.dumps(slim_record(record), ensure_ascii=False)}
+    if not detailed:
+        # Cheaper retry prompt: same answer contract, far fewer input tokens.
+        return f"""Classify this POI for a museum/gallery dataset as ok, wrong or suspicious.
+ok = genuine public museum/gallery/exhibition venue. wrong = shop, restaurant, hotel, school,
+office or other commercial/educational entity using a museum-like name. suspicious = only when a
+concrete conflicting fact is present.
+Record: {data}
 {hint}
-[OUTPUT] JSON only: {{"verdict": "ok"|"suspicious"|"wrong", "reason": "short", "suspicious_fields": []}}
+Reply with raw JSON only:
+{{"verdict": "ok" | "wrong" | "suspicious", "reason": "...", "reason_en": "...",
+  "reason_code": "...", "confidence": 0.9, "suspicious_fields": []}}
+"""
 
-[RULES, apply in order]
-1. 'name' (title) is the primary evidence. Missing address is never a reason for 'suspicious'. A mailing address (PO Box) says nothing about the venue.
-2. 'ok' ONLY IF the name contains an explicit keyword meaning museum, gallery or exhibition, e.g.: {ok_kw}; or a name that ENDS with 展 (an exhibition, not 发展/开展).
-   Vague words (Art, Center, Institute, House, Hall, Heritage, Collection, Studio, Cultural) are NOT enough.
-3. 'wrong' ONLY IF the name explicitly names an excluded entity, e.g.: {wrong_kw}.
-4. 'suspicious' in ALL other cases, including: a keyword that is only part of a street, station, parking lot, entrance, cafe or shop name (博物馆路, 博物馆站, Museum Cafe); company showrooms/sales centers (展厅, 展示中心); ambiguous organizations (Historical Society, Foundation, Association, Trust, Guild, Institute, Cultural Center); names with BOTH an ok and a wrong keyword; empty or unreadable names; names matching no rule.
-5. 'category', 'typecode' and 'type' (a category path such as 风景名胜;旅游景点) are secondary signals; they can NEVER create 'ok' or 'wrong' by themselves. Scenic-spot or sports categories do NOT conflict with a museum name (many museums sit in scenic areas): judge by the name. Output 'suspicious' only when the category strongly contradicts the name (shop, restaurant, hotel, school, training, zoo, aquarium).
-6. If not highly certain, output 'suspicious'. A wrong 'suspicious' is cheap; a wrong 'ok'/'wrong' is costly.
+    return f"""You are a Senior Data Quality Auditor. Your task is to determine if a POI is a LEGITIMATE museum, gallery, or exhibition venue.
+The input data may be incomplete (missing typecode, missing address). You must base your decision on the available evidence.
 
-[EXAMPLES]
-"National Museum of History" -> ok
-"城市动物园" -> wrong
-"Museum Gift Shop" -> suspicious
-"博物馆地铁站" -> suspicious
-"XX汽车展厅" -> suspicious
-"某某美术培训中心" -> wrong
-"Lincoln County Historical Society" -> suspicious
-"Anchorage Clay Arts Guild" (category: ART MUSEUM) -> suspicious
-"Alaska Sealife Center" (category: ZOO, AQUARIUM) -> suspicious
+**Core Rule (Semantic Analysis):**
+1. **Legitimate Venue**: A public/non-profit entity whose PRIMARY PURPOSE is cultural, artistic, or scientific exhibition/education. 
+2. **Commercial Masquerade (CRITICAL)**: Businesses (shops, restaurants, homestays, wedding dress stores, offices) often use words like "博物馆" (Museum) or "艺术中心" (Art Center) to attract customers. If the venue's primary purpose is selling goods/services, you MUST output `wrong`, EVEN IF the name contains "博物馆" or the typecode is 140100.
+   - Examples: "西班牙火腿博物馆" (Ham shop), "婚纱博物馆" (Wedding dress store), "民宿-博物馆" (Homestay), "XX咖啡馆" (Cafe).
+
+**Target Objective:** 
+{intent.get("objective", "Validate if the record is a legitimate museum.")}
+
+**Record Data:**
+{data}
+{hint}
+
+**Output Format (JSON Only):**
+{{
+  "verdict": "ok" | "suspicious" | "wrong",
+  "reason": "中文说明，面向最终用户",
+  "reason_en": "English explanation for developers",
+  "reason_code": "commercial_masquerade | genuine_museum | ambiguous_evidence | excluded_entity",
+  "confidence": 0.95,
+  "suspicious_fields": ["name", "keytag"]
+}}
+
+**Decision Rules:**
+- Judge what the ENTITY is from its name and its Amap type/keytag. The address only tells you where it sits.
+- `ok`: the name reads as a venue (contains 馆 / 博物院 / 画廊 / 展览 / 陈列), or it is a brand/abstract name located inside a cultural district or museum complex (e.g. "798艺术区"). Small private museums and exhibition halls inside shopping malls, office buildings or residential areas are legitimate: the location alone is NOT commercial evidence, and a branch suffix like "(…购物中心店)" marks a branch, not a shop.
+- `wrong`:
+  * internal or departmental history halls not open to the public: 局史馆, 校史馆, 厂史馆, 院史馆, 队史馆;
+  * research, conservation or service units rather than exhibition venues: 文物保护…中心, 科技中心, 研究中心, 研究所;
+  * a bare product or brand name with no venue word and no cultural-district address, even when the map typecode says museum;
+  * a venue that is plainly a shop for one product (e.g. 火腿博物馆, 婚纱博物馆), or a school, restaurant, hotel, homestay, training centre or company.
+- `suspicious`: use ONLY when two concrete facts genuinely conflict. Never abstain merely because the name is unfamiliar.
+- The map typecode is a hint, never proof by itself.
+- Do not output markdown, output raw JSON only.
 """
 
 ERROR_LOG = os.getenv("LLM_ERROR_LOG", "data/outputs/llm_errors.jsonl")
@@ -80,45 +106,101 @@ def _log_error(record, stage, detail, raw=""):
     try:
         os.makedirs(os.path.dirname(ERROR_LOG) or ".", exist_ok=True)
         with open(ERROR_LOG, "a", encoding="utf-8") as f:
-            f.write(json.dumps({"id": record.get("id"), "stage": stage, "detail": str(detail)[:300],
-                                "raw": (raw or "")[:500]}, ensure_ascii=False) + "\n")
+            f.write(json.dumps({"id": record.get("id"), "stage": stage, "detail": str(detail)[:300], "raw": (raw or "")[:500]}, ensure_ascii=False) + "\n")
     except Exception:
         pass
 
+def _normalize_reason_code(value: object) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(value or "").lower()).strip("_")[:80] or "unspecified"
+
 def _lenient(raw: str):
-    """Last resort: pull the verdict out of messy text."""
     m = re.search(r'"?verdict"?\s*[:：]\s*"?(ok|wrong|suspicious)', raw or "", re.I)
-    if not m: return None
-    r = re.search(r'"?reason"?\s*[:：]\s*"([^"]{0,300})', raw, re.S)
-    return {"verdict": m.group(1).lower(), "reason": (r.group(1) if r else "parsed leniently"), "suspicious_fields": []}
+    if not m: 
+        return None
+    zh = re.search(r'"?reason"?\s*[:：]\s*"([^"]{0,300})', raw, re.S)
+    en = re.search(r'"?reason_en"?\s*[:：]\s*"([^"]{0,300})', raw, re.S)
+    rc = re.search(r'"?reason_code"?\s*[:：]\s*"([^"]{0,100})', raw, re.S)
+    return {
+        "verdict": m.group(1).lower(),
+        "reason": zh.group(1) if zh else "解析成功，无原因",
+        "reason_en": en.group(1) if en else "parsed leniently",
+        "reason_code": _normalize_reason_code(rc.group(1) if rc else ""),
+        "confidence": 0.5,
+        "suspicious_fields": [],
+    }
 
 def llm_judge(record: dict, intent: dict, extra_context: str = "", attempts: int = 3) -> dict:
-    if not api_key:
-        return {"verdict": "unknown", "reason": "Missing API Key", "source_layer": "llm_judge"}
+    if not _get_api_key():
+        return {
+            "verdict": "unknown", 
+            "reason": "缺少 API Key", 
+            "reason_en": "Missing API Key", 
+            "reason_code": "missing_api_key", 
+            "confidence": 0.0, 
+            "source_layer": "llm_judge"
+        }
+    
     prompt = build_prompt(record, intent, extra_context)
+    retry_prompt = build_prompt(record, intent, extra_context, detailed=False)
     last = "unknown error"
     for a in range(attempts):
         raw = ""
-        kwargs = dict(model=model_name, temperature=0, max_tokens=1024,
-                      messages=[{"role": "user", "content": prompt}])
+        # First attempt uses the full prompt; retries use the short one (fewer tokens).
+        use_prompt = prompt if a == 0 else retry_prompt
+        kwargs = dict(model=_get_model(), temperature=0, max_tokens=1024, messages=[{"role": "user", "content": use_prompt}])
         if a == 0:
-            kwargs["response_format"] = {"type": "json_object"}   # retries drop it: some models choke on it
-        try:                                                      # stage 1: HTTP / SDK
-            r = client.chat.completions.create(**kwargs)
+            kwargs["response_format"] = {"type": "json_object"}
+        
+        try:
+            r = _get_client().chat.completions.create(**kwargs)
             raw = (r.choices[0].message.content or "")
         except Exception as e:
-            last = f"api: {e}"; _log_error(record, "api", e)
-            time.sleep(2 ** a); continue
-        try:                                                      # stage 2: parsing
+            last = f"api: {e}"
+            _log_error(record, "api", e)
+            time.sleep(2 ** a)
+            continue
+        
+        if not raw.strip():
+            # An empty completion is not a parse error; re-sending the same prompt only burns tokens.
+            last = "empty response"
+            _log_error(record, "empty", "empty completion", raw)
+            continue
+
+        try:
             result = _parse_json(raw)
         except Exception as e:
             result = _lenient(raw)
             if result is None:
-                last = f"parse: {e}"; _log_error(record, "parse", e, raw)
-                time.sleep(1 + a); continue
+                last = f"parse: {e}"
+                _log_error(record, "parse", e, raw)
+                time.sleep(1 + a)
+                continue
+        
         v = str(result.get("verdict", "")).strip().lower()
         if v not in VALID:
-            last = f"bad verdict {v!r}"; _log_error(record, "verdict", v, raw); continue
-        result["verdict"], result["source_layer"] = v, "llm_judge"
+            last = f"bad verdict {v!r}"
+            _log_error(record, "verdict", v, raw)
+            continue
+            
+        result["verdict"] = v
+        result["source_layer"] = "llm_judge"
+        result["reason"] = result.get("reason") or "未提供原因"
+        result["reason_en"] = result.get("reason_en") or result.get("reason") or "No reason provided."
+        result["reason_code"] = _normalize_reason_code(result.get("reason_code"))
+        result["suspicious_fields"] = result.get("suspicious_fields") or []
+        
+        try:
+            result["confidence"] = float(result.get("confidence", 0.5))
+        except (ValueError, TypeError):
+            result["confidence"] = 0.5
+            
         return result
-    return {"verdict": "unknown", "reason": last, "source_layer": "llm_judge"}
+        
+    return {
+        "verdict": "unknown", 
+        "reason": "LLM 调用失败，需要人工复核", 
+        "reason_en": last, 
+        "reason_code": "empty_response" if last == "empty response" else "llm_error", 
+        "confidence": 0.0, 
+        "source_layer": "llm_judge"
+    }

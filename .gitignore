@@ -218,3 +218,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+validation_history.db
+data/outputs/*.json
+data/outputs/*.jsonl
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# pip leftovers (created when a build is interrupted or its temp dir is unwritable)
+pip-build-*/
+pip-install-*/
+pip-ephem-wheel-cache-*/
+pip-build-tracker-*/
+.piptmp*/
+.pipcache/
